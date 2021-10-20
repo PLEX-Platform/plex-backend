@@ -6,6 +6,11 @@ namespace PlexBackend.Core.MatchMaking
 {
     public class ChoicesPerProject : Dictionary<Project, Dictionary<Student, int>>
     {
+
+        public ChoicesPerProject() {}
+
+        public ChoicesPerProject(ChoicesPerProject orig) : base(orig) {}
+
         public Project GetProjectById(int id)
         {
             return Keys.FirstOrDefault(project => project.Id == id);

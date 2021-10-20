@@ -20,20 +20,10 @@ namespace PlexBackend.Core.MatchMaking
         /// Constructor for the matchmaking algorithm
         /// </summary>
         /// <param name="choices">List of projects and the ranking that a student has divided them into.</param>
-        /// <param name="numberOfStudents">Total number of students in the class</param>
         /// <param name="isTesting">Check whether program is runned via unit test or not</param>
         public MatchMakingStrategyProjects(ChoicesPerProject choices, bool isTesting)
         {
-            
-            _choices = new ChoicesPerProject();
-            foreach ((Project project, Dictionary<Student, int> projectRanking) in choices)
-            {
-                _choices[project] = new Dictionary<Student, int>();
-                foreach ((Student student, int rank) in projectRanking)
-                {
-                    _choices[project][student] = rank;
-                }
-            }
+            _choices = new ChoicesPerProject(choices);
             _isTesting = isTesting;
         }
         
