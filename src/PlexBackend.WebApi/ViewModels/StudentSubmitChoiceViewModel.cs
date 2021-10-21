@@ -1,0 +1,19 @@
+﻿using PlexBackend.WebApi.Validation;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace PlexBackend.WebApi.ViewModels
+{
+    public class StudentSubmitChoiceViewModel
+    {
+        [Required]
+        [RequiredGreaterThanZero(ErrorMessage = "PCN must be greater than zero")]
+        public int StudentPCN { get; set; }
+        [Required]
+        [EnsureOneElement(ErrorMessage = "At least one choice is required")]
+        public List<ProjectPriority> ProjectPriorities { get; set; }
+    }
+}
