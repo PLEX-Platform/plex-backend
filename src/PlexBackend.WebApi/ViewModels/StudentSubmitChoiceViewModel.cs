@@ -14,6 +14,9 @@ namespace PlexBackend.WebApi.ViewModels
         public int StudentPCN { get; set; }
         [Required]
         [EnsureOneElement(ErrorMessage = "At least one choice is required")]
+        [EnsureUniqueProjectId(ErrorMessage = "A ProjectId may only occur once")]
+        [EnsureUniquePriorityRank(ErrorMessage = "A Priorityrank may only occur once")]
+        [EnsurePriorityRanksAreIncremental(ErrorMessage = "One or more priorityranks are missing")]
         public List<ProjectPriority> ProjectPriorities { get; set; }
     }
 }

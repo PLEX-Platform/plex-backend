@@ -42,14 +42,14 @@ namespace PlexBackend.Core.Repositories.Base
             this.RepositoryContext.Set<T>().AddRange(entities);
         }
 
-        public void UpdateRange(List<T> entitites)
-        {
-            this.RepositoryContext.Set<T>().UpdateRange(entitites);
-        }
-
         public void Update(T entity)
         {
             this.RepositoryContext.Set<T>().Update(entity);
+        }
+
+        public void UpdateRange(List<T> entitites)
+        {
+            this.RepositoryContext.Set<T>().UpdateRange(entitites);
         }
 
         public void Delete(T entity)

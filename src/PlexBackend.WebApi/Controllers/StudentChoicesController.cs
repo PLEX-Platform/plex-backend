@@ -61,42 +61,43 @@ namespace PlexBackend.WebApi.Controllers
                 return NotFound();
             }
 
-            StudentChoiceByPCNViewModel vm =  ModelConverter.ContextModelsToStudentChoiceByPCN(PCN, studentChoices);
+            //StudentChoiceByPCNViewModel vm =  ModelConverter.ContextModelsToStudentChoiceByPCN(PCN, studentChoices);
+            StudentChoiceByPCNViewModel vm = mapper.Map<List<StudentChoice>, StudentChoiceByPCNViewModel>(studentChoices);
 
             return Ok(vm);
         }
 
         // PUT: api/StudentChoices/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public IActionResult PutStudentChoice(int id, StudentChoiceViewModel studentChoiceVM)
-        {
-            if (id != studentChoiceVM.Id)
-            {
-                return BadRequest();
-            }
+        //[HttpPut("{id}")]
+        //public IActionResult PutStudentChoice(int id, StudentChoiceViewModel studentChoiceVM)
+        //{
+        //    if (id != studentChoiceVM.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            StudentChoice studentChoiceDataModel = mapper.Map<StudentChoiceViewModel, StudentChoice>(studentChoiceVM);
-            _studentChoiceRepository.Update(studentChoiceDataModel);
+        //    StudentChoice studentChoiceDataModel = mapper.Map<StudentChoiceViewModel, StudentChoice>(studentChoiceVM);
+        //    _studentChoiceRepository.Update(studentChoiceDataModel);
 
-            try
-            {
-                _studentChoiceRepository.Save();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StudentChoiceExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        _studentChoiceRepository.Save();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!StudentChoiceExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
 
         [HttpPost]
@@ -106,23 +107,17 @@ namespace PlexBackend.WebApi.Controllers
             {
                 List<StudentChoice> databaseInput = new List<StudentChoice>();
 
-                foreach (ProjectPriority kvp in studentChoiceVM.ProjectPriorities)
-                {
-                    StudentChoice studentChoiceDataModel = new()
-                    {
-                        StudentPCN = studentChoiceVM.StudentPCN,
-                        ProjectId = kvp.ProjectId,
-                        PriorityRank = kvp.PriorityRank
-                    };
+                databaseInput = mapper.Map<List<ProjectPriority>, List<StudentChoice>>(studentChoiceVM.ProjectPriorities);
 
-                    databaseInput.Add(studentChoiceDataModel);
+                foreach (StudentChoice sc in databaseInput)
+                {
+                    sc.StudentPCN = studentChoiceVM.StudentPCN;
                 }
 
                 try
                 {
                     _studentChoiceRepository.AddRange(databaseInput);
                     _studentChoiceRepository.Save();
-                    //return CreatedAtAction("GetChoicesByPCN", new { PCN = studentChoiceVM.StudentPCN }, new StudentChoiceViewModel());
                     return Ok();
 
                 }
