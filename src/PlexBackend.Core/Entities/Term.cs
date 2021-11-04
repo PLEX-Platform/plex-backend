@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlexBackend.Infrastructure.ContextModels
+namespace PlexBackend.Core.ContextModels
 {
     public class Term
     {

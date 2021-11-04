@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PlexBackend.Infrastructure.Interfaces;
-using PlexBackend.Infrastructure.ContextModels;
 using PlexBackend.WebApi.ViewModels;
+using PlexBackend.Core.ContextModels;
+using PlexBackend.Core.Interfaces;
 
 namespace PlexBackend.WebApi.Controllers
 {

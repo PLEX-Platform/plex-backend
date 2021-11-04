@@ -1,14 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlexBackend.WebApi", "PlexBackend.WebApi\PlexBackend.WebApi.csproj", "{1086775E-FCA1-43DA-8088-9BDD90122385}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlexBackend.WebApi", "PlexBackend.WebApi\PlexBackend.WebApi.csproj", "{1086775E-FCA1-43DA-8088-9BDD90122385}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlexBackend.Infrastructure", "PlexBackend.Infrastructure\PlexBackend.Infrastructure.csproj", "{F7C96274-2299-474E-B7DF-AC1B2F8D8C04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlexBackend.Infrastructure", "PlexBackend.Infrastructure\PlexBackend.Infrastructure.csproj", "{F7C96274-2299-474E-B7DF-AC1B2F8D8C04}"
+	ProjectSection(ProjectDependencies) = postProject
+		{675FFEDD-3A59-4D05-A24C-73AF25124EBE} = {675FFEDD-3A59-4D05-A24C-73AF25124EBE}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FD2562E6-FE2B-4E86-9BC5-CB5122C699B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlexBackend.Core.UnitTests", "..\tests\PlexBackend.Core.UnitTests\PlexBackend.Core.UnitTests.csproj", "{4AC14B19-799A-43DA-B2F6-4ECE60F1D07E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlexBackend.Core.UnitTests", "..\tests\PlexBackend.Core.UnitTests\PlexBackend.Core.UnitTests.csproj", "{4AC14B19-799A-43DA-B2F6-4ECE60F1D07E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlexBackend.Core", "PlexBackend.Core\PlexBackend.Core.csproj", "{675FFEDD-3A59-4D05-A24C-73AF25124EBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlexBackend.Core", "PlexBackend.Core\PlexBackend.Core.csproj", "{675FFEDD-3A59-4D05-A24C-73AF25124EBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,7 +39,13 @@ Global
 		{675FFEDD-3A59-4D05-A24C-73AF25124EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{675FFEDD-3A59-4D05-A24C-73AF25124EBE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4AC14B19-799A-43DA-B2F6-4ECE60F1D07E} = {FD2562E6-FE2B-4E86-9BC5-CB5122C699B2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DB3D9EDA-3033-456E-8709-C33014BD5722}
 	EndGlobalSection
 EndGlobal

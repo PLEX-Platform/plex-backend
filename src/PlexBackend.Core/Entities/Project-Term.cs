@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlexBackend.Infrastructure.ContextModels
+namespace PlexBackend.Core.ContextModels
 {
-    public class ProjectGroup
+    public class Project_Term
     {
         public int Id { get; set; }
+        public int TermId { get; set; }
         public int ProjectId { get; set; }
-        public string StudentPCNs { get; set; }
+
+        public virtual Term Term { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using PlexBackend.Infrastructure.ContextModels;
+using PlexBackend.Core.ContextModels;
 using PlexBackend.WebApi.ViewModels;
 
 namespace PlexBackend.WebApi.Configuration

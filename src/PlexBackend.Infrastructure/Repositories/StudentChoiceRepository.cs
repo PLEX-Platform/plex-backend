@@ -1,6 +1,6 @@
-﻿using PlexBackend.Infrastructure;
-using PlexBackend.Infrastructure.ContextModels;
-using PlexBackend.Infrastructure.Interfaces;
+﻿using PlexBackend.Core.ContextModels;
+using PlexBackend.Core.Interfaces;
+using PlexBackend.Infrastructure;
 using PlexBackend.Infrastructure.Repositories.Base;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PlexBackend.Infrastructure.ContextModels;
+using PlexBackend.Core.ContextModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

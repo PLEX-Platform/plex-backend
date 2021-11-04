@@ -1,4 +1,6 @@
-﻿namespace PlexBackend.Core.Entities
+﻿using System;
+
+namespace PlexBackend.Core.Entities
 {
     public class Project
     {
