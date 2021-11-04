@@ -17,8 +17,6 @@ namespace PlexBackend.WebApi.Configuration
 
             CreateMap<ProjectPriority, StudentChoice>();
             CreateMap<StudentChoice, ProjectPriority>();
-            CreateMap<StudentChoice, StudentChoiceByPCNViewModel>()
-                .ForMember(dest => dest.StudentPCN, opt => opt.MapFrom(src => src.StudentPCN));
         }
     }
 }

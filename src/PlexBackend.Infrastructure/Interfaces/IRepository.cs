@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlexBackend.Core.Interfaces
+namespace PlexBackend.Infrastructure.Interfaces
 {
     public interface IRepository<T>
     {

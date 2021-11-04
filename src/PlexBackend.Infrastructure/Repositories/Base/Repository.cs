@@ -1,13 +1,13 @@
-﻿using PlexBackend.Core.Interfaces;
-using PlexBackend.Infrastructure;
+﻿using PlexBackend.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using PlexBackend.Infrastructure.Interfaces;
 
-namespace PlexBackend.Core.Repositories.Base
+namespace PlexBackend.Infrastructure.Repositories.Base
 {
     public class Repository<T>: IRepository<T> where T: class
     {

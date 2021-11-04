@@ -5,11 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PlexBackend.Core.Interfaces;
-using PlexBackend.Infrastructure;
+using PlexBackend.Infrastructure.Interfaces;
 using PlexBackend.Infrastructure.ContextModels;
-using PlexBackend.WebApi.Converter;
 using PlexBackend.WebApi.ViewModels;
 
 namespace PlexBackend.WebApi.Controllers
@@ -61,8 +58,11 @@ namespace PlexBackend.WebApi.Controllers
                 return NotFound();
             }
 
-            //StudentChoiceByPCNViewModel vm =  ModelConverter.ContextModelsToStudentChoiceByPCN(PCN, studentChoices);
-            StudentChoiceByPCNViewModel vm = mapper.Map<List<StudentChoice>, StudentChoiceByPCNViewModel>(studentChoices);
+            StudentChoiceByPCNViewModel vm = new StudentChoiceByPCNViewModel
+            {
+                ProjectPriorities = mapper.Map<List<StudentChoice>, List<ProjectPriority>>(studentChoices),
+                StudentPCN = PCN
+            };
 
             return Ok(vm);
         }

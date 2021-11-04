@@ -1,14 +1,14 @@
-﻿using PlexBackend.Core.Interfaces;
-using PlexBackend.Core.Repositories.Base;
-using PlexBackend.Infrastructure;
+﻿using PlexBackend.Infrastructure;
 using PlexBackend.Infrastructure.ContextModels;
+using PlexBackend.Infrastructure.Interfaces;
+using PlexBackend.Infrastructure.Repositories.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlexBackend.Core.Repositories
+namespace PlexBackend.Infrastructure.Repositories
 {
     public class StudentChoiceRepository : Repository<StudentChoice>, IStudentChoiceRepository
     {

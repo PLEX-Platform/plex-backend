@@ -12,9 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using PlexBackend.Core.Interfaces;
-using PlexBackend.Core.Repositories;
 using PlexBackend.Infrastructure;
+using PlexBackend.Infrastructure.Interfaces;
+using PlexBackend.Infrastructure.Repositories;
 
 namespace PlexBackend.WebApi
 {
