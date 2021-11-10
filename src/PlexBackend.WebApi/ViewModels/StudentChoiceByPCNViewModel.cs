@@ -10,12 +10,6 @@ namespace PlexBackend.WebApi.ViewModels
         public int StudentPCN { get; set; }
         public List<ProjectPriority> ProjectPriorities { get; set; }
 
-        public StudentChoiceByPCNViewModel(int PCN)
-        {
-            StudentPCN = PCN;
-            ProjectPriorities = new List<ProjectPriority>();
-        }
-
         public StudentChoiceByPCNViewModel()
         {
             ProjectPriorities = new List<ProjectPriority>();

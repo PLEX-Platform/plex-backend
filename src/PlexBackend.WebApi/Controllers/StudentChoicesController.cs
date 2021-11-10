@@ -119,7 +119,6 @@ namespace PlexBackend.WebApi.Controllers
                     _studentChoiceRepository.AddRange(databaseInput);
                     _studentChoiceRepository.Save();
                     return Ok();
-
                 }
                 catch (Exception ex)
                 {
