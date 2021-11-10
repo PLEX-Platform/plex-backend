@@ -31,6 +31,11 @@ namespace PlexBackend.Infrastructure.Repositories.Base
             return this.RepositoryContext.Set<T>().Find(id);
         }
 
+        public T GetById(Guid id)
+        {
+            return this.RepositoryContext.Set<T>().Find(id);
+        }
+
         public T Create(T entity)
         {
             this.RepositoryContext.Set<T>().Add(entity);

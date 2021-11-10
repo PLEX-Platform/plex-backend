@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlexBackend.WebApi.ViewModels;
 using PlexBackend.Core.ContextModels;
 using PlexBackend.Core.Interfaces;
+using PlexBackend.Core.Services;
 
 namespace PlexBackend.WebApi.Controllers
 {
@@ -15,12 +16,12 @@ namespace PlexBackend.WebApi.Controllers
     [ApiController]
     public class StudentChoicesController : ControllerBase
     {
-        private readonly IStudentChoiceRepository _studentChoiceRepository;
+        private readonly IStudentChoiceService studentChoiceService;
         private readonly IMapper mapper;
 
-        public StudentChoicesController(IStudentChoiceRepository studentChoiceRepository, IMapper mapper)
+        public StudentChoicesController(IMapper mapper, IStudentChoiceService studentChoiceService)
         {
-            _studentChoiceRepository = studentChoiceRepository;
+            this.studentChoiceService = studentChoiceService;
             this.mapper = mapper;
         }
 
@@ -28,16 +29,16 @@ namespace PlexBackend.WebApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<StudentChoiceViewModel>> GetStudentChoices()
         {
-            List<StudentChoice> studentChoices = _studentChoiceRepository.FindAll().ToList();
+            List<StudentChoice> studentChoices = studentChoiceService.FindAll();
 
             return Ok(mapper.Map<List<StudentChoice>, List<StudentChoiceViewModel>>(studentChoices));
         }
 
         // GET: api/StudentChoices/5
         [HttpGet("{id}")]
-        public ActionResult<StudentChoiceViewModel> GetStudentChoice(int id)
+        public ActionResult<StudentChoiceViewModel> GetStudentChoice(Guid id)
         {
-            StudentChoice studentChoice = _studentChoiceRepository.GetById(id);
+            StudentChoice studentChoice = studentChoiceService.GetById(id);
 
             if (studentChoice == null)
             {
@@ -51,7 +52,7 @@ namespace PlexBackend.WebApi.Controllers
         [HttpGet("/GetChoicesByPCN/{PCN}")]
         public ActionResult<StudentChoiceByPCNViewModel> GetChoicesByPCN(int PCN)
         {
-            List<StudentChoice> studentChoices = _studentChoiceRepository.FindByCondition(e => e.StudentPCN == PCN).ToList();
+            List<StudentChoice> studentChoices = studentChoiceService.FindByCondition(e => e.StudentPCN == PCN);
 
             if (studentChoices.Count == 0)
             {
@@ -116,8 +117,7 @@ namespace PlexBackend.WebApi.Controllers
 
                 try
                 {
-                    _studentChoiceRepository.AddRange(databaseInput);
-                    _studentChoiceRepository.Save();
+                    studentChoiceService.AddRange(databaseInput);
                     return Ok();
                 }
                 catch (Exception ex)
@@ -131,24 +131,26 @@ namespace PlexBackend.WebApi.Controllers
 
         // DELETE: api/StudentChoices/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteStudentChoice(int id)
+        public IActionResult DeleteStudentChoice(Guid id)
         {
-            StudentChoice studentChoice = _studentChoiceRepository.GetById(id);
-
-            if (studentChoice == null)
+            try
             {
-                return NotFound();
+                if (!studentChoiceService.DeleteStudentChoice(id))
+                {
+                    return NotFound();
+                }         
             }
-
-            _studentChoiceRepository.Delete(studentChoice);
-            _studentChoiceRepository.Save();
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
 
             return Ok();
         }
 
-        private bool StudentChoiceExists(int id)
+        private bool StudentChoiceExists(Guid id)
         {
-            if (_studentChoiceRepository.GetById(id) == null)
+            if (studentChoiceService.GetById(id) == null)
             {
                 return false;
             }
