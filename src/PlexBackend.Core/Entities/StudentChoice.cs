@@ -11,8 +11,7 @@ namespace PlexBackend.Core.ContextModels
     public class StudentChoice
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid StudentChoiceId { get; set; }
+        public int Id { get; set; }
         [Required]
         public int StudentPCN { get; set; }
         [Required]
