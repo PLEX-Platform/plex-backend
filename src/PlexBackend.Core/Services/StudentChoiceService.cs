@@ -47,11 +47,11 @@ namespace PlexBackend.Core.Services
             {
                 return false;
             }
-
-                studentChoiceRepository.Delete(studentChoice);
-                studentChoiceRepository.Save();
-
-                return true;
+            
+            studentChoiceRepository.Delete(studentChoice);
+            studentChoiceRepository.Save();
+            
+            return true;
         }
     }
 }

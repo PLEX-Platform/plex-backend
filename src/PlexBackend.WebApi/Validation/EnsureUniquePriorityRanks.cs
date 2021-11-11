@@ -9,10 +9,10 @@ namespace PlexBackend.WebApi.Validation
     public class EnsureUniquePriorityRank : ValidationAttribute
     {
         /// <summary>
-        /// Ensure entry is greater than 0
+        /// Ensure the supplied list of priorityranks doesn't contain duplicate priorityranks
         /// </summary>
-        /// <param name="input">The integer value of the selection</param>
-        /// <returns>True if value is greater than zero</returns>
+        /// <param name="value">The supplied list of ProjectPriorities</param>
+        /// <returns>True if the priorityranks in the list occur only once</returns>
         public override bool IsValid(object value)
         {
             List<ProjectPriority> input = value as List<ProjectPriority>

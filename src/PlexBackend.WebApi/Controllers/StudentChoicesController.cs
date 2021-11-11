@@ -25,6 +25,9 @@ namespace PlexBackend.WebApi.Controllers
             this.mapper = mapper;
         }
 
+        /// <summary>
+        /// HttpGet to return all the recorded Studentchoices
+        /// </summary>
         // GET: api/StudentChoices
         [HttpGet]
         public ActionResult<IEnumerable<StudentChoiceViewModel>> GetStudentChoices()
@@ -34,6 +37,10 @@ namespace PlexBackend.WebApi.Controllers
             return Ok(mapper.Map<List<StudentChoice>, List<StudentChoiceViewModel>>(studentChoices));
         }
 
+        /// <summary>
+        /// HttpGet to return a specific StudentChoice
+        /// </summary>
+        /// <param name="id">The Guid that identifies the choice in the database.</param>
         // GET: api/StudentChoices/5
         [HttpGet("{id}")]
         public ActionResult<StudentChoiceViewModel> GetStudentChoice(Guid id)
@@ -48,6 +55,10 @@ namespace PlexBackend.WebApi.Controllers
             return Ok(mapper.Map<StudentChoice, StudentChoiceViewModel>(studentChoice));
         }
 
+        /// <summary>
+        /// HttpGet to return a specific students projectchoices
+        /// </summary>
+        /// <param name="PCN">Number that identifies the student.</param>
         // GET: api/StudentChoices/5
         [HttpGet("/GetChoicesByPCN/{PCN}")]
         public ActionResult<StudentChoiceByPCNViewModel> GetChoicesByPCN(int PCN)
@@ -101,14 +112,16 @@ namespace PlexBackend.WebApi.Controllers
         //}
 
 
+        /// <summary>
+        /// HttpPost to submit a students projectchoice
+        /// </summary>
+        /// <param name="studentChoiceVM">The viewmodel containing the studentnumber and his choice of projects.</param>
         [HttpPost]
         public ActionResult<StudentSubmitChoiceViewModel> Post([FromBody]StudentSubmitChoiceViewModel studentChoiceVM)
         {
             if (ModelState.IsValid)
             {
-                List<StudentChoice> databaseInput = new List<StudentChoice>();
-
-                databaseInput = mapper.Map<List<ProjectPriority>, List<StudentChoice>>(studentChoiceVM.ProjectPriorities);
+                List<StudentChoice> databaseInput = mapper.Map<List<ProjectPriority>, List<StudentChoice>>(studentChoiceVM.ProjectPriorities);
 
                 foreach (StudentChoice sc in databaseInput)
                 {
@@ -129,6 +142,10 @@ namespace PlexBackend.WebApi.Controllers
             return BadRequest("The input is not valid");
         }
 
+        /// <summary>
+        /// HttpGet to delete a specific studentchoice
+        /// </summary>
+        /// <param name="id">The Guid that identifies the studentchoice within the database.</param>
         // DELETE: api/StudentChoices/5
         [HttpDelete("{id}")]
         public IActionResult DeleteStudentChoice(Guid id)
@@ -146,15 +163,6 @@ namespace PlexBackend.WebApi.Controllers
             }
 
             return Ok();
-        }
-
-        private bool StudentChoiceExists(Guid id)
-        {
-            if (studentChoiceService.GetById(id) == null)
-            {
-                return false;
-            }
-            return true;
         }
     }
 }
