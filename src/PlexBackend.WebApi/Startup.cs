@@ -35,6 +35,13 @@ namespace PlexBackend.WebApi
             {
                 optionsbuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+            
+            services.AddCors(o => o.AddPolicy("AllowEverythingPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -57,7 +64,7 @@ namespace PlexBackend.WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PlexBackend.WebApi v1"));
             }
-
+            app.UseCors("AllowEverythingPolicy");
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -65,6 +72,7 @@ namespace PlexBackend.WebApi
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            
         }
     }
 }
