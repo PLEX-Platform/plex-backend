@@ -28,7 +28,7 @@ namespace PlexBackend.WebApi.Validation
                 {
                     input.Single(x => x.PriorityRank == priority.PriorityRank);
                 }
-                catch(InvalidOperationException ex)
+                catch
                 {
                     return false;
                 }

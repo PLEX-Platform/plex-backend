@@ -1,12 +1,7 @@
 ﻿using PlexBackend.Core.ContextModels;
 using PlexBackend.Core.Interfaces;
-using PlexBackend.Infrastructure;
 using PlexBackend.Infrastructure.Repositories.Base;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PlexBackend.Infrastructure.Repositories
 {
@@ -17,6 +12,14 @@ namespace PlexBackend.Infrastructure.Repositories
         public StudentChoiceRepository(PlexContext plexContext) : base(plexContext)
         {
             _context = plexContext;
+        }
+
+        public List<StudentChoice> FindAllWithProjectsAndStudents()
+        {
+            //return _context.StudentChoices
+            //    .Include(e => e.Project)
+            //    .Include(e => e.Student).ToList();
+            return new List<StudentChoice>();
         }
     }
 }

@@ -8,10 +8,9 @@ namespace PlexBackend.WebApi.ViewModels
 {
     public class StudentChoiceViewModel
     {
-        public Guid StudentChoiceId { get; set; }
+        public int Id { get; set; }
         public int StudentPCN { get; set; }
         public int ProjectId { get; set; }
         public int PriorityRank { get; set; }
-
     }
 }

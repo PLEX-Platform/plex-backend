@@ -1,10 +1,8 @@
 ﻿using PlexBackend.Core.ContextModels;
+using PlexBackend.Core.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PlexBackend.Core.Interfaces
 {
@@ -12,8 +10,9 @@ namespace PlexBackend.Core.Interfaces
     {
         void AddRange(List<StudentChoice> studentChoices);
         List<StudentChoice> FindAll();
-        StudentChoice GetById(Guid Id);
+        StudentChoice GetById(int Id);
         List<StudentChoice> FindByCondition(Expression<Func<StudentChoice, bool>> expression);
         bool DeleteStudentChoice(Guid Id);
+        public Dictionary<Project, Dictionary<Student, int>> CreateAlgorithmData();
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PlexBackend.Core.ContextModels
 {
@@ -18,5 +12,8 @@ namespace PlexBackend.Core.ContextModels
         public int ProjectId { get; set; }
         [Required]
         public int PriorityRank { get; set; }
+
+        //public Project Project { get; set; }
+        //public Student Student { get; set; }
     }
 }

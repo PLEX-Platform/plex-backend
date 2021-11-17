@@ -11,15 +11,8 @@ namespace PlexBackend.Core.ContextModels
     public class Playlist
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid PlaylistId { get; set; }
-        public int TermId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public string ProjectsIds { get; set; }
-        public int MaxAmountOfChoices { get; set; }
         public DateTime Deadline { get; set; }
-
-        public virtual Term Term { get; set; }
-
     }
 }
