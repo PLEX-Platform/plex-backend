@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PlexBackend.Core.ContextModels;
+using PlexBackend.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace PlexBackend.Infrastructure
         }
 
         public DbSet<StudentChoice> StudentChoices { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -28,7 +28,7 @@ namespace PlexBackend.WebApi.Validation
                 {
                     input.Single(x => x.ProjectId == priority.ProjectId);
                 }
-                catch (InvalidOperationException) 
+                catch
                 {
                     return false;
                 }

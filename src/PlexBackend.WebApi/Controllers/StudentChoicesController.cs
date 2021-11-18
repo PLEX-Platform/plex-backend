@@ -9,6 +9,8 @@ using PlexBackend.WebApi.ViewModels;
 using PlexBackend.Core.ContextModels;
 using PlexBackend.Core.Interfaces;
 using PlexBackend.Core.Services;
+using PlexBackend.Core.MatchMaking;
+using PlexBackend.Core.Entities;
 
 namespace PlexBackend.WebApi.Controllers
 {
@@ -43,7 +45,7 @@ namespace PlexBackend.WebApi.Controllers
         /// <param name="id">The Guid that identifies the choice in the database.</param>
         // GET: api/StudentChoices/5
         [HttpGet("{id}")]
-        public ActionResult<StudentChoiceViewModel> GetStudentChoice(Guid id)
+        public ActionResult<StudentChoiceViewModel> GetStudentChoice(int id)
         {
             StudentChoice studentChoice = studentChoiceService.GetById(id);
 

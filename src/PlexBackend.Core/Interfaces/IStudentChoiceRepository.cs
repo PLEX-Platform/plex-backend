@@ -9,5 +9,6 @@ namespace PlexBackend.Core.Interfaces
 {
     public interface IStudentChoiceRepository : IRepository<StudentChoice>
     {
+        List<StudentChoice> FindAllWithProjectsAndStudents();
     }
 }
