@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using PlexBackend.Core.Entities;
+using PlexBackend.Core.Interfaces;
 
 namespace PlexBackend.Core.MatchMaking
 {

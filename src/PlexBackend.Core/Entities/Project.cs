@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PlexBackend.Core.Entities
@@ -13,5 +14,6 @@ namespace PlexBackend.Core.Entities
         public int DEXId { get; set; }
         public string Title { get; set; }
         public int MaximumNumberOfMembers { get; set; }
+        public List<Playlist> Playlists { get; set; }
     }
 }

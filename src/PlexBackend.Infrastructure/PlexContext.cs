@@ -19,6 +19,7 @@ namespace PlexBackend.Infrastructure
         public DbSet<StudentChoice> StudentChoices { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Project> Projects { get; set; }
+        public DbSet<Playlist> Playlists { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

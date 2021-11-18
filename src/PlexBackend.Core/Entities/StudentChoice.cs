@@ -1,7 +1,6 @@
-﻿using PlexBackend.Core.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace PlexBackend.Core.ContextModels
+namespace PlexBackend.Core.Entities
 {
     public class StudentChoice
     {
@@ -15,5 +14,6 @@ namespace PlexBackend.Core.ContextModels
 
         public Project Project { get; set; }
         public Student Student { get; set; }
+        public int PlaylistId { get; set; }
     }
 }

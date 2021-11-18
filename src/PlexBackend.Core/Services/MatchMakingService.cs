@@ -1,29 +1,26 @@
 ﻿using PlexBackend.Core.ContextModels;
 using PlexBackend.Core.Entities;
 using PlexBackend.Core.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PlexBackend.Core.Services
 {
-    public class MatchMakingService
+    public class MatchMakingService : IMatchMakingService
     {
-        private readonly IStudentChoiceRepository studentChoiceRepository;
+        private readonly IStudentChoiceRepository _studentChoiceRepository;
 
         public MatchMakingService(IStudentChoiceRepository studentChoiceRepository)
         {
-            this.studentChoiceRepository = studentChoiceRepository;
+            _studentChoiceRepository = studentChoiceRepository;
         }
 
         public Dictionary<Project, Dictionary<Student, int>> CreateAlgorithmData()
         {
-            List<StudentChoice> studentChoices = studentChoiceRepository.FindAllWithProjectsAndStudents();
+            List<StudentChoice> studentChoices = _studentChoiceRepository.FindAllWithProjectsAndStudents();
 
-            Dictionary<Project, Dictionary<Student, int>> ChoicesPerProject = new Dictionary<Project, Dictionary<Student, int>>();
-            List<Project> projects = new List<Project>();
+            Dictionary<Project, Dictionary<Student, int>> choicesPerProject = new();
+            List<Project> projects = new();
 
             foreach (StudentChoice sc in studentChoices)
             {
@@ -32,23 +29,17 @@ namespace PlexBackend.Core.Services
                     projects.Add(sc.Project);
                 }
             }
-
-            Dictionary<Student, int> students = new Dictionary<Student, int>();
-
+            
             foreach (Project project in projects)
             {
-                foreach (StudentChoice sc in studentChoices)
-                {
-                    if (sc.Project == project)
-                    {
-                        students.Add(sc.Student, sc.PriorityRank);
-                    }
-                }
+                IEnumerable<StudentChoice> choices = studentChoices.Where(choice => choice.Project == project);
 
-                ChoicesPerProject.Add(project, students);
+                Dictionary<Student, int> studentPriorityRank = choices.ToDictionary(sc => sc.Student, sc => sc.PriorityRank);
+
+                choicesPerProject.Add(project, studentPriorityRank);
             }
 
-            return ChoicesPerProject;
+            return choicesPerProject;
         }
     }
 }

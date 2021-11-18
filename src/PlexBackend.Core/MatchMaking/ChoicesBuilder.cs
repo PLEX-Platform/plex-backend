@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using PlexBackend.Core.Entities;
 using PlexBackend.Core.MatchMaking;
 
-namespace PlexBackend.Core.UnitTests
+namespace PlexBackend.Core.MatchMaking
 {
     public class ChoicesBuilder : IStudentsAndProjectsSelectionStage, IChoiceSelectionSelectionStage
     {

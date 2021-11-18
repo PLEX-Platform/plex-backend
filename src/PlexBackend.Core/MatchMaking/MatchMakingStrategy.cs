@@ -5,10 +5,10 @@ using PlexBackend.Core.Entities;
 
 namespace PlexBackend.Core.MatchMaking
 {
-    public class MatchMakingStrategyProjects : IMatchMakingStrategy
+    public class MatchMakingStrategy : IMatchMakingStrategy
     {
         //The ranking of the projects students have chosen
-        private readonly ChoicesPerProject _choices;
+        private readonly Dictionary<Project, Dictionary<Student, int>> _choices;
         
         //List to return result
         private readonly Dictionary<Project, List<Student>> _result = new();
@@ -21,9 +21,9 @@ namespace PlexBackend.Core.MatchMaking
         /// </summary>
         /// <param name="choices">List of projects and the ranking that a student has divided them into.</param>
         /// <param name="isTesting">Check whether program is runned via unit test or not</param>
-        public MatchMakingStrategyProjects(ChoicesPerProject choices, bool isTesting)
+        public MatchMakingStrategy(IDictionary<Project, Dictionary<Student, int>> choices, bool isTesting)
         {
-            _choices = new ChoicesPerProject(choices);
+            _choices = new Dictionary<Project, Dictionary<Student, int>>(choices);
             _isTesting = isTesting;
         }
         
@@ -34,8 +34,14 @@ namespace PlexBackend.Core.MatchMaking
         /// <returns></returns>
         public Dictionary<Project, List<Student>> Execute()
         {
-            foreach ((Project project, Dictionary<Student, int> _) in _choices)
+            foreach ((Project project, Dictionary<Student, int> studentRankings) in _choices)
             {
+                _result[project] = new List<Student>();
+                
+                if (_choices[project].Count == 0)
+                {
+                    break;
+                }
                 PutStudentsInProjectWhoRankedThisProjectTheHighest(project, 
                     _choices[project].Values.Min());
 
@@ -52,27 +58,28 @@ namespace PlexBackend.Core.MatchMaking
             }
             return _result;
         }
-
+        
         /// <summary>
-        /// Removes students from the list that have already been confirmed for a specific project.
+        /// Check which students ranked the given project as the highest and place them in that group.
         /// </summary>
-        /// <param name="project"></param>
-        private void RemoveStudentsFromChoicesPoolWhoAreLockedIn(Project project)
+        /// <param name="project">The project to check for which students rated it highest</param>
+        /// <param name="highestRanking">The highest ranking that a student has given this project</param>
+        private void PutStudentsInProjectWhoRankedThisProjectTheHighest(Project project, int highestRanking)
         {
-            foreach (Student student in _result[project])
+            Dictionary<Student, int> projectRankingByStudent = _choices[project];
+            foreach ((Student student, int ranking) in projectRankingByStudent)
             {
-                foreach ((Project _, Dictionary<Student, int> poolPerStudent) in _choices)
+                if (ranking == highestRanking)
                 {
-                    poolPerStudent.Remove(student);
+                    _result[project].Add(student);
                 }
             }
         }
-
+        
         /// <summary>
         /// Removes students from the list if the number of project members exceeds the maximum number allowed. Selection of students to remove is random.
         /// </summary>
         /// <param name="project">The project that exceeds the maximum number of members.</param>
-        /// <param name="maxStudentsPerProject">Maximum number of students allowed for the project.</param>
         private void RemoveExcessStudentsRandomlyFromProject(Project project)
         {
             if (_result[project].Count <= project.MaximumNumberOfMembers)
@@ -107,23 +114,23 @@ namespace PlexBackend.Core.MatchMaking
 
             _result[project] = selectedStudents;
         }
-        
+
         /// <summary>
-        /// Check which students ranked the given project as the highest and place them in that group.
+        /// Removes students from the list that have already been confirmed for a specific project.
         /// </summary>
-        /// <param name="project">The project to check for which students rated it highest</param>
-        /// <param name="highestRanking">The highest ranking that a student has given this project</param>
-        private void PutStudentsInProjectWhoRankedThisProjectTheHighest(Project project, int highestRanking)
+        /// <param name="project"></param>
+        private void RemoveStudentsFromChoicesPoolWhoAreLockedIn(Project project)
         {
-            Dictionary<Student, int> projectRankingByStudent = _choices[project];
-            _result[project] = new List<Student>();
-            foreach ((Student student, int ranking) in projectRankingByStudent)
+            foreach (Student student in _result[project])
             {
-                if (ranking == highestRanking)
+                foreach ((Project _, Dictionary<Student, int> poolPerStudent) in _choices)
                 {
-                    _result[project].Add(student);
+                    poolPerStudent.Remove(student);
                 }
             }
         }
+
+        
+        
     }
 }
