@@ -13,6 +13,5 @@ namespace PlexBackend.Core.Interfaces
         StudentChoice GetById(int Id);
         List<StudentChoice> FindByCondition(Expression<Func<StudentChoice, bool>> expression);
         bool DeleteStudentChoice(Guid Id);
-        public Dictionary<Project, Dictionary<Student, int>> CreateAlgorithmData();
     }
 }

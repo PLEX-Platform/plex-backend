@@ -52,39 +52,5 @@ namespace PlexBackend.Core.Services
             
             return true;
         }
-
-        public Dictionary<Project, Dictionary<Student, int>> CreateAlgorithmData()
-        {
-            //List<StudentChoice> studentChoices = studentChoiceRepository.FindAllWithProjectsAndStudents();
-
-            //Dictionary<Project, Dictionary<Student, int>> ChoicesPerProject = new Dictionary<Project, Dictionary<Student, int>>();
-            //List<Project> projects = new List<Project>();
-
-            //foreach (StudentChoice sc in studentChoices)
-            //{
-            //    if (!projects.Contains(sc.Project))
-            //    {
-            //        projects.Add(sc.Project);
-            //    }
-            //}
-
-            //Dictionary<Student, int> students = new Dictionary<Student, int>();
-
-            //foreach (Project project in projects)
-            //{
-            //    foreach (StudentChoice sc in studentChoices)
-            //    {
-            //        if (sc.Project == project)
-            //        {
-            //            students.Add(sc.Student, sc.PriorityRank);
-            //        }
-            //    }
-
-            //    ChoicesPerProject.Add(project, students);
-            //}
-
-            //return ChoicesPerProject;
-            return new Dictionary<Project, Dictionary<Student, int>>();
-        }
     }
 }

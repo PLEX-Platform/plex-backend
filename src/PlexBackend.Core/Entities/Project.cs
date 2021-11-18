@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace PlexBackend.Core.Entities
 {
+    [Index(nameof(DEXId), IsUnique = true)]
     public class Project
     {
         [Key]

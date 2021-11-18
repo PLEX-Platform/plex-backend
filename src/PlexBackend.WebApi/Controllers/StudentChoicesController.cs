@@ -65,7 +65,7 @@ namespace PlexBackend.WebApi.Controllers
         [HttpGet("/GetChoicesByPCN/{PCN}")]
         public ActionResult<StudentChoiceByPCNViewModel> GetChoicesByPCN(int PCN)
         {
-            List<StudentChoice> studentChoices = studentChoiceService.FindByCondition(e => e.StudentPCN == PCN);
+            List<StudentChoice> studentChoices = studentChoiceService.FindByCondition(e => e.Student.StudentNumber == PCN);
 
             if (studentChoices.Count == 0)
             {
@@ -123,11 +123,13 @@ namespace PlexBackend.WebApi.Controllers
         {
             if (ModelState.IsValid)
             {
+                int studentId = 1;
+
                 List<StudentChoice> databaseInput = mapper.Map<List<ProjectPriority>, List<StudentChoice>>(studentChoiceVM.ProjectPriorities);
 
                 foreach (StudentChoice sc in databaseInput)
                 {
-                    sc.StudentPCN = studentChoiceVM.StudentPCN;
+                    sc.StudentId = studentId ;
                 }
 
                 try
