@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PlexBackend.Core.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace PlexBackend.Core.ContextModels
 {
@@ -6,14 +7,13 @@ namespace PlexBackend.Core.ContextModels
     {
         [Key]
         public int Id { get; set; }
-        [Required]
-        public int StudentPCN { get; set; }
-        [Required]
         public int ProjectId { get; set; }
+        [Required]
+        public int StudentId { get; set; }
         [Required]
         public int PriorityRank { get; set; }
 
-        //public Project Project { get; set; }
-        //public Student Student { get; set; }
+        public Project Project { get; set; }
+        public Student Student { get; set; }
     }
 }
