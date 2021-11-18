@@ -47,6 +47,9 @@ namespace PlexBackend.WebApi
 
             services.AddTransient<IStudentChoiceService, StudentChoiceService>();
             services.AddTransient<IStudentChoiceRepository, StudentChoiceRepository>();
+            services.AddTransient<IStudentRepository, StudentRepository>();
+            services.AddTransient<IProjectService, ProjectService>();
+            services.AddTransient<IProjectRepository, ProjectRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

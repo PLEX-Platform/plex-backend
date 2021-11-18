@@ -1,5 +1,6 @@
 ﻿using PlexBackend.Core.ContextModels;
 using PlexBackend.Core.Entities;
+using PlexBackend.Core.Helpers;
 using PlexBackend.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,12 @@ namespace PlexBackend.Core.Services
     public class StudentChoiceService : IStudentChoiceService
     {
         private readonly IStudentChoiceRepository studentChoiceRepository;
+        private readonly IStudentRepository studentRepository;
 
-        public StudentChoiceService(IStudentChoiceRepository studentChoiceRepository)
+        public StudentChoiceService(IStudentChoiceRepository studentChoiceRepository, IStudentRepository studentRepository)
         {
             this.studentChoiceRepository = studentChoiceRepository;
+            this.studentRepository = studentRepository;
         }
 
         public void AddRange(List<StudentChoice> studentChoices)
@@ -51,6 +54,27 @@ namespace PlexBackend.Core.Services
             studentChoiceRepository.Save();
             
             return true;
+        }
+
+        public ValidateStudentExists VerifyUserExists(int PCN)
+        {
+            Student student = studentRepository.GetStudentByPCN(PCN);
+
+            if (student == null)
+            {
+                return new ValidateStudentExists
+                {
+                    Exists = false,
+                    Student = student
+                };
+            }
+
+            return new ValidateStudentExists
+            {
+                Exists = true,
+                Student = student
+            };
+                
         }
     }
 }

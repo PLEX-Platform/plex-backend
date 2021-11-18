@@ -11,6 +11,7 @@ using PlexBackend.Core.Interfaces;
 using PlexBackend.Core.Services;
 using PlexBackend.Core.MatchMaking;
 using PlexBackend.Core.Entities;
+using PlexBackend.Core.Helpers;
 
 namespace PlexBackend.WebApi.Controllers
 {
@@ -19,11 +20,13 @@ namespace PlexBackend.WebApi.Controllers
     public class StudentChoicesController : ControllerBase
     {
         private readonly IStudentChoiceService studentChoiceService;
+        private readonly IProjectService projectService;
         private readonly IMapper mapper;
 
-        public StudentChoicesController(IMapper mapper, IStudentChoiceService studentChoiceService)
+        public StudentChoicesController(IMapper mapper, IStudentChoiceService studentChoiceService, IProjectService projectService)
         {
             this.studentChoiceService = studentChoiceService;
+            this.projectService = projectService;
             this.mapper = mapper;
         }
 
@@ -123,19 +126,47 @@ namespace PlexBackend.WebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                int studentId = 1;
-
-                List<StudentChoice> databaseInput = mapper.Map<List<ProjectPriority>, List<StudentChoice>>(studentChoiceVM.ProjectPriorities);
-
-                foreach (StudentChoice sc in databaseInput)
-                {
-                    sc.StudentId = studentId ;
-                }
-
                 try
                 {
-                    studentChoiceService.AddRange(databaseInput);
-                    return Ok();
+                    ValidateStudentExists validateStudentExists = studentChoiceService.VerifyUserExists(studentChoiceVM.StudentPCN);
+
+                    if (!validateStudentExists.Exists)
+                    {
+                        return BadRequest("This student doesn't exist in our system");
+                    }
+
+                    foreach (ProjectPriority prj in studentChoiceVM.ProjectPriorities)
+                    {
+                        ValidateProjectExists project = projectService.CheckIfProjectExists(prj.ProjectId);
+                        if (!project.Exists)
+                        {
+                            Project newProject = new Project
+                            {
+                                DEXId = prj.ProjectId,
+                                Title = "testProject",
+                                MaximumNumberOfMembers = 5
+                            };
+
+                            projectService.AddNewProject(newProject);
+                        }
+                    }
+
+                    List<StudentChoice> databaseInput = mapper.Map<List<ProjectPriority>, List<StudentChoice>>(studentChoiceVM.ProjectPriorities);
+
+                    foreach (StudentChoice sc in databaseInput)
+                    {
+                        sc.StudentId =  validateStudentExists.Student.Id;
+                    }
+
+                    try
+                    {
+                        studentChoiceService.AddRange(databaseInput);
+                        return Ok();
+                    }
+                    catch (Exception ex)
+                    {
+                        return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                    }
                 }
                 catch (Exception ex)
                 {

@@ -1,4 +1,5 @@
 ﻿using PlexBackend.Core.Entities;
+using PlexBackend.Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace PlexBackend.Core.Interfaces
 {
-    public interface IStudentRepository : IRepository<Student>
+    public interface IProjectService
     {
-        public Student GetStudentByPCN(int PCN);
+        public ValidateProjectExists CheckIfProjectExists(int DexId);
+        public void AddNewProject(Project project);
     }
 }

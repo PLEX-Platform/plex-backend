@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace PlexBackend.Infrastructure.Repositories
 {
@@ -15,6 +16,11 @@ namespace PlexBackend.Infrastructure.Repositories
         public StudentRepository(PlexContext plexContext) : base(plexContext)
         {
             this.plexContext = plexContext;
+        }
+
+        public Student GetStudentByPCN(int PCN)
+        {
+            return plexContext.Students.Where(student => student.StudentNumber == PCN).FirstOrDefault();
         }
     }
 }
