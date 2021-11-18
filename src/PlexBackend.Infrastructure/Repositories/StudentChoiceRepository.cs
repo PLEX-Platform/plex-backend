@@ -2,6 +2,9 @@
 using PlexBackend.Core.Interfaces;
 using PlexBackend.Infrastructure.Repositories.Base;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using PlexBackend.Core.Entities;
 
 namespace PlexBackend.Infrastructure.Repositories
 {
@@ -16,10 +19,9 @@ namespace PlexBackend.Infrastructure.Repositories
 
         public List<StudentChoice> FindAllWithProjectsAndStudents()
         {
-            //return _context.StudentChoices
-            //    .Include(e => e.Project)
-            //    .Include(e => e.Student).ToList();
-            return new List<StudentChoice>();
+            return _context.StudentChoices
+                .Include(e => e.Project)
+                .Include(e => e.Student).ToList();
         }
     }
 }

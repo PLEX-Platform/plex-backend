@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlexBackend.Infrastructure;
 
 namespace PlexBackend.Infrastructure.Migrations
 {
     [DbContext(typeof(PlexContext))]
-    partial class PlexContextModelSnapshot : ModelSnapshot
+    [Migration("20211118121113_AddPlaylists")]
+    partial class AddPlaylists
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,19 +21,22 @@ namespace PlexBackend.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("PlaylistProject", b =>
+            modelBuilder.Entity("PlexBackend.Core.ContextModels.Playlist", b =>
                 {
-                    b.Property<int>("PlaylistsId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ProjectsId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("Deadline")
+                        .HasColumnType("datetime2");
 
-                    b.HasKey("PlaylistsId", "ProjectsId");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("ProjectsId");
+                    b.HasKey("Id");
 
-                    b.ToTable("PlaylistProject");
+                    b.ToTable("Playlists");
                 });
 
             modelBuilder.Entity("PlexBackend.Core.ContextModels.StudentChoice", b =>
@@ -60,24 +65,6 @@ namespace PlexBackend.Infrastructure.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("StudentChoices");
-                });
-
-            modelBuilder.Entity("PlexBackend.Core.Entities.Playlist", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Deadline")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Playlists");
                 });
 
             modelBuilder.Entity("PlexBackend.Core.Entities.Project", b =>
@@ -126,21 +113,6 @@ namespace PlexBackend.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Students");
-                });
-
-            modelBuilder.Entity("PlaylistProject", b =>
-                {
-                    b.HasOne("PlexBackend.Core.Entities.Playlist", null)
-                        .WithMany()
-                        .HasForeignKey("PlaylistsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PlexBackend.Core.Entities.Project", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("PlexBackend.Core.ContextModels.StudentChoice", b =>

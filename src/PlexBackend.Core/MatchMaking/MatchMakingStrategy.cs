@@ -8,7 +8,7 @@ namespace PlexBackend.Core.MatchMaking
     public class MatchMakingStrategy : IMatchMakingStrategy
     {
         //The ranking of the projects students have chosen
-        private readonly ChoicesPerProject _choices;
+        private readonly Dictionary<Project, Dictionary<Student, int>> _choices;
         
         //List to return result
         private readonly Dictionary<Project, List<Student>> _result = new();
@@ -21,9 +21,9 @@ namespace PlexBackend.Core.MatchMaking
         /// </summary>
         /// <param name="choices">List of projects and the ranking that a student has divided them into.</param>
         /// <param name="isTesting">Check whether program is runned via unit test or not</param>
-        public MatchMakingStrategy(ChoicesPerProject choices, bool isTesting)
+        public MatchMakingStrategy(IDictionary<Project, Dictionary<Student, int>> choices, bool isTesting)
         {
-            _choices = new ChoicesPerProject(choices);
+            _choices = new Dictionary<Project, Dictionary<Student, int>>(choices);
             _isTesting = isTesting;
         }
         
@@ -36,6 +36,12 @@ namespace PlexBackend.Core.MatchMaking
         {
             foreach ((Project project, Dictionary<Student, int> studentRankings) in _choices)
             {
+                _result[project] = new List<Student>();
+                
+                if (_choices[project].Count == 0)
+                {
+                    break;
+                }
                 PutStudentsInProjectWhoRankedThisProjectTheHighest(project, 
                     _choices[project].Values.Min());
 
@@ -61,7 +67,6 @@ namespace PlexBackend.Core.MatchMaking
         private void PutStudentsInProjectWhoRankedThisProjectTheHighest(Project project, int highestRanking)
         {
             Dictionary<Student, int> projectRankingByStudent = _choices[project];
-            _result[project] = new List<Student>();
             foreach ((Student student, int ranking) in projectRankingByStudent)
             {
                 if (ranking == highestRanking)

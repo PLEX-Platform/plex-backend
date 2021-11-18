@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using PlexBackend.Core.ContextModels;
+using PlexBackend.Core.Entities;
 using PlexBackend.WebApi.ViewModels;
 
 namespace PlexBackend.WebApi.Configuration
