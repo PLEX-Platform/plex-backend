@@ -16,7 +16,7 @@ namespace PlexBackend.Core.UnitTests
                 .Choice(0, new[] {1, 0})
                 .Choice(1, new[] {0, 1})
                 .Build();
-            IMatchMakingStrategy strategy = new MatchMakingStrategyProjects(choicesPerProject,  true);
+            IMatchMakingStrategy strategy = new MatchMakingStrategy(choicesPerProject,  true);
             Dictionary<Project,List<Student>> result = strategy.Execute();
             Assert.Equal(result[choicesPerProject.GetProjectById(0)], new List<Student> {choicesPerProject.GetStudentByStudentNumber(1)});
             Assert.Equal(result[choicesPerProject.GetProjectById(1)], new List<Student> {choicesPerProject.GetStudentByStudentNumber(0)});
@@ -32,7 +32,7 @@ namespace PlexBackend.Core.UnitTests
                 .Choice(2, new[] {0, 1})
                 .Build();
 
-            IMatchMakingStrategy strategy = new MatchMakingStrategyProjects(choicesPerProject,  true);
+            IMatchMakingStrategy strategy = new MatchMakingStrategy(choicesPerProject,  true);
             Dictionary<Project,List<Student>> result = strategy.Execute();
             Assert.Equal(result[choicesPerProject.GetProjectById(0)], new List<Student>
             {
