@@ -135,22 +135,6 @@ namespace PlexBackend.WebApi.Controllers
                         return BadRequest("This student doesn't exist in our system");
                     }
 
-                    foreach (ProjectPriority prj in studentChoiceVM.ProjectPriorities)
-                    {
-                        ValidateProjectExists project = projectService.CheckIfProjectExists(prj.ProjectId);
-                        if (!project.Exists)
-                        {
-                            Project newProject = new Project
-                            {
-                                DEXId = prj.ProjectId,
-                                Title = "testProject",
-                                MaximumNumberOfMembers = 5
-                            };
-
-                            projectService.AddNewProject(newProject);
-                        }
-                    }
-
                     List<StudentChoice> databaseInput = mapper.Map<List<ProjectPriority>, List<StudentChoice>>(studentChoiceVM.ProjectPriorities);
 
                     foreach (StudentChoice sc in databaseInput)

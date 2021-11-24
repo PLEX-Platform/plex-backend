@@ -13,17 +13,25 @@ namespace PlexBackend.Core.Services
     {
         private readonly IStudentChoiceRepository studentChoiceRepository;
         private readonly IStudentRepository studentRepository;
+        private readonly IProjectRepository projectRepository;
 
-        public StudentChoiceService(IStudentChoiceRepository studentChoiceRepository, IStudentRepository studentRepository)
+        public StudentChoiceService(IStudentChoiceRepository studentChoiceRepository, IStudentRepository studentRepository, IProjectRepository projectRepository)
         {
             this.studentChoiceRepository = studentChoiceRepository;
             this.studentRepository = studentRepository;
+            this.projectRepository = projectRepository;
         }
 
         public void AddRange(List<StudentChoice> studentChoices)
         {
-                studentChoiceRepository.AddRange(studentChoices);
-                studentChoiceRepository.Save();
+            foreach (StudentChoice sc in studentChoices)
+            {
+                sc.Project = projectRepository.FindByCondition(e => e.DEXId == sc.ProjectId).FirstOrDefault();
+                sc.ProjectId = sc.Project.Id;
+            }
+            
+            studentChoiceRepository.AddRange(studentChoices);
+            studentChoiceRepository.Save();
         }
 
         public List<StudentChoice> FindAll()
