@@ -19,7 +19,7 @@ namespace PlexBackend.WebApi.Controllers
 
         public StudentChoicesController(IMapper mapper, IStudentChoiceService studentChoiceService)
         {
-            this._studentChoiceService = studentChoiceService;
+            _studentChoiceService = studentChoiceService;
             this.mapper = mapper;
         }
 

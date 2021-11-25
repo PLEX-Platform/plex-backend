@@ -10,6 +10,9 @@ namespace PlexBackend.Infrastructure.Helpers
 {
     public static class Seed
     {
+        /// <summary>
+        /// Create a list of students with random names and studentnumber
+        /// </summary>
         public static List<Student> SeedStudents()
         {
             List<Student> students = new List<Student>();
@@ -27,6 +30,9 @@ namespace PlexBackend.Infrastructure.Helpers
             return students;
         }
 
+        /// <summary>
+        /// Create a list of projects with a random title
+        /// </summary>
         public static List<Project> SeedProjects()
         {
             List<Project> projects = new List<Project>();
@@ -34,10 +40,10 @@ namespace PlexBackend.Infrastructure.Helpers
                 for (int i = 1; i <= 5; i++)
                 {
                     Faker<Project> projectToFake = new Faker<Project>()
-                        .RuleFor(s => s.DEXId, f => f.Random.Number(1, 30))
                         .RuleFor(s => s.Title, f => f.Commerce.ProductName());
 
                     Project project = projectToFake.Generate();
+                    project.DEXId = i;
                     project.MaximumNumberOfMembers = 3;
 
                     projects.Add(project);
@@ -47,6 +53,9 @@ namespace PlexBackend.Infrastructure.Helpers
             }
         }
 
+        /// <summary>
+        /// Create a list of studentchoices
+        /// </summary>
         public static List<StudentChoice> SeedStudentChoices()
         {
             List<StudentChoice> studentChoices = new List<StudentChoice>();
@@ -65,16 +74,20 @@ namespace PlexBackend.Infrastructure.Helpers
             return studentChoices;
         }
 
+        /// <summary>
+        /// Create a list of playlists with a random name and adds a list of projects to them
+        /// </summary>
+        /// <param name="projects">A list of projects.</param>
         public static List<Playlist> SeedPlaylists(List<Project> projects)
         {
             List<Playlist> playlists = new List<Playlist>();
             for (int i = 1; i <= 3; i++)
             {
-                Playlist playlist = new Playlist
-                {
-                    Name = "playlist" + i,
-                    Projects = projects
-                };
+                Faker<Playlist> playlistToFake = new Faker<Playlist>()
+                    .RuleFor(s => s.Name, f => f.Commerce.ProductName());
+
+                Playlist playlist = playlistToFake.Generate();
+                playlist.Projects = projects;
 
                 playlists.Add(playlist);
             }

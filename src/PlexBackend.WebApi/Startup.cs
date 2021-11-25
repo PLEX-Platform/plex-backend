@@ -30,16 +30,25 @@ namespace PlexBackend.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            /// <summary>
+            /// Setup Dbcontext class depending on the environment
+            /// </summary>
             if (Environment.IsDevelopment())
             {
                 services.AddDbContext<PlexContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LocalDb")));
             }
-            services.AddDbContext<PlexContext>(optionsbuilder =>
+            else
             {
-                optionsbuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            });
+                services.AddDbContext<PlexContext>(optionsbuilder =>
+                {
+                    optionsbuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                });
+            }
 
+            /// <summary>
+            /// Adding cors and defining the used policy
+            /// </summary>
             services.AddCors(o => o.AddPolicy("AllowEverythingPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -47,14 +56,15 @@ namespace PlexBackend.WebApi
                     .AllowAnyHeader();
             }));
 
+
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddTransient<IStudentChoiceService, StudentChoiceService>();
-            services.AddTransient<IStudentChoiceRepository, StudentChoiceRepository>();
-            services.AddTransient<IStudentRepository, StudentRepository>();
-            services.AddTransient<IProjectService, ProjectService>();
-            services.AddTransient<IProjectRepository, ProjectRepository>();
-            services.AddTransient<IMatchMakingService, MatchMakingService>();
+            services.AddScoped<IStudentChoiceService, StudentChoiceService>();
+            services.AddScoped<IStudentChoiceRepository, StudentChoiceRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IMatchMakingService, MatchMakingService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -85,6 +95,9 @@ namespace PlexBackend.WebApi
 
         }
 
+        /// <summary>
+        /// Applies new migrations or if no LocalDb exists creates the database
+        /// </summary>
         private static void UpdateDatabase(IApplicationBuilder app, IWebHostEnvironment env)
         {
             using IServiceScope serviceScope = app.ApplicationServices
