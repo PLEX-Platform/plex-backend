@@ -8,7 +8,9 @@ using Microsoft.OpenApi.Models;
 using PlexBackend.Core.Interfaces;
 using PlexBackend.Core.Services;
 using PlexBackend.Infrastructure;
+using PlexBackend.Infrastructure.Helpers;
 using PlexBackend.Infrastructure.Repositories;
+using System.Linq;
 
 namespace PlexBackend.WebApi
 {
@@ -62,7 +64,7 @@ namespace PlexBackend.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            UpdateDatabase(app);
+            UpdateDatabase(app,env);
 
             if (env.IsDevelopment())
             {
@@ -81,13 +83,34 @@ namespace PlexBackend.WebApi
 
         }
 
-        private static void UpdateDatabase(IApplicationBuilder app)
+        private static void UpdateDatabase(IApplicationBuilder app, IWebHostEnvironment env)
         {
             using IServiceScope serviceScope = app.ApplicationServices
                                                   .GetRequiredService<IServiceScopeFactory>()
                                                   .CreateScope();
             using PlexContext context = serviceScope.ServiceProvider.GetService<PlexContext>();
             context.Database.Migrate();
+
+            if (env.IsDevelopment())
+            {
+                if (!context.Students.Any())
+                {
+                    context.Students.AddRange(Seed.SeedStudents());
+                    context.SaveChanges();
+                }
+
+                if (!context.Projects.Any())
+                {
+                    context.Projects.AddRange(Seed.SeedProjects());
+                    context.SaveChanges();
+                }
+
+                if (!context.StudentChoices.Any())
+                {
+                    context.StudentChoices.AddRange(Seed.SeedStudentChoices());
+                    context.SaveChanges();
+                }
+            }
         }
     }
 }
