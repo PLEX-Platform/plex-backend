@@ -14,21 +14,28 @@ namespace PlexBackend.WebApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Environment = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            if (Environment.IsDevelopment())
+            {
+                services.AddDbContext<PlexContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("LocalDb")));
+            }
             services.AddDbContext<PlexContext>(optionsbuilder =>
             {
                 optionsbuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-            
+
             services.AddCors(o => o.AddPolicy("AllowEverythingPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -48,13 +55,15 @@ namespace PlexBackend.WebApi
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "PlexBackend.WebApi", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PlexBackend.WebApi", Version = "v1" });
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            UpdateDatabase(app);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -69,7 +78,16 @@ namespace PlexBackend.WebApi
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-            
+
+        }
+
+        private static void UpdateDatabase(IApplicationBuilder app)
+        {
+            using IServiceScope serviceScope = app.ApplicationServices
+                                                  .GetRequiredService<IServiceScopeFactory>()
+                                                  .CreateScope();
+            using PlexContext context = serviceScope.ServiceProvider.GetService<PlexContext>();
+            context.Database.Migrate();
         }
     }
 }
