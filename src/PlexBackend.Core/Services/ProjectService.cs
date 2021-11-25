@@ -11,17 +11,17 @@ namespace PlexBackend.Core.Services
 {
     public class ProjectService : IProjectService
     {
-        private readonly IProjectRepository projectRepository;
+        private readonly IProjectRepository _projectRepository;
 
         public ProjectService(IProjectRepository projectRepository)
         {
-            this.projectRepository = projectRepository;
+            this._projectRepository = projectRepository;
         }
 
         public ValidateProjectExists CheckIfProjectExists(int DexId)
         {
-            Project project = projectRepository.FindByCondition(proj => proj.DEXId == DexId).FirstOrDefault();
-            if (projectRepository.FindByCondition(proj => proj.DEXId == DexId) == null)
+            Project project = _projectRepository.FindByCondition(proj => proj.DEXId == DexId).FirstOrDefault();
+            if (_projectRepository.FindByCondition(proj => proj.DEXId == DexId) == null)
             {
                 return new ValidateProjectExists
                 {
@@ -39,7 +39,7 @@ namespace PlexBackend.Core.Services
 
         public void AddNewProject(Project project)
         {
-            projectRepository.Create(project);
+            _projectRepository.Create(project);
         }
     }
 }

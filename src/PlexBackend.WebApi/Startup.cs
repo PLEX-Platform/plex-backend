@@ -5,11 +5,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using PlexBackend.Core.Entities;
 using PlexBackend.Core.Interfaces;
 using PlexBackend.Core.Services;
 using PlexBackend.Infrastructure;
 using PlexBackend.Infrastructure.Helpers;
 using PlexBackend.Infrastructure.Repositories;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PlexBackend.WebApi
@@ -102,6 +104,13 @@ namespace PlexBackend.WebApi
                 if (!context.Projects.Any())
                 {
                     context.Projects.AddRange(Seed.SeedProjects());
+                    context.SaveChanges();
+                }
+
+                if (!context.Playlists.Any())
+                {
+                    List<Project> projects = context.Projects.ToList();
+                    context.Playlists.AddRange(Seed.SeedPlaylists(projects));
                     context.SaveChanges();
                 }
 

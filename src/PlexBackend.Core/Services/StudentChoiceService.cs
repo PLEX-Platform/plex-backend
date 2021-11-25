@@ -11,62 +11,62 @@ namespace PlexBackend.Core.Services
 {
     public class StudentChoiceService : IStudentChoiceService
     {
-        private readonly IStudentChoiceRepository studentChoiceRepository;
-        private readonly IStudentRepository studentRepository;
-        private readonly IProjectRepository projectRepository;
+        private readonly IStudentChoiceRepository _studentChoiceRepository;
+        private readonly IStudentRepository _studentRepository;
+        private readonly IProjectRepository _projectRepository;
 
         public StudentChoiceService(IStudentChoiceRepository studentChoiceRepository, IStudentRepository studentRepository, IProjectRepository projectRepository)
         {
-            this.studentChoiceRepository = studentChoiceRepository;
-            this.studentRepository = studentRepository;
-            this.projectRepository = projectRepository;
+            _studentChoiceRepository = studentChoiceRepository;
+            _studentRepository = studentRepository;
+            _projectRepository = projectRepository;
         }
 
         public void AddRange(List<StudentChoice> studentChoices)
         {
             foreach (StudentChoice sc in studentChoices)
             {
-                sc.Project = projectRepository.FindByCondition(e => e.DEXId == sc.ProjectId).FirstOrDefault();
+                sc.Project = _projectRepository.FindByCondition(e => e.DEXId == sc.ProjectId).FirstOrDefault();
                 sc.ProjectId = sc.Project.Id;
             }
             
-            studentChoiceRepository.AddRange(studentChoices);
-            studentChoiceRepository.Save();
+            _studentChoiceRepository.AddRange(studentChoices);
+            _studentChoiceRepository.Save();
         }
 
         public List<StudentChoice> FindAll()
         {
-            return studentChoiceRepository.FindAll().ToList();
+            return _studentChoiceRepository.FindAll().ToList();
         }
 
         public StudentChoice GetById(int Id)
         {
-            return studentChoiceRepository.GetById(Id);
+            return _studentChoiceRepository.GetById(Id);
         }
 
         public List<StudentChoice> FindByCondition(Expression<Func<StudentChoice, bool>> expression)
         {
-            return studentChoiceRepository.FindByCondition(expression).ToList();
+            return _studentChoiceRepository.FindByCondition(expression).ToList();
         }
 
         public bool DeleteStudentChoice(Guid Id)
         {
-            StudentChoice studentChoice = studentChoiceRepository.GetById(Id);
+            StudentChoice studentChoice = _studentChoiceRepository.GetById(Id);
 
             if (studentChoice == null)
             {
                 return false;
             }
             
-            studentChoiceRepository.Delete(studentChoice);
-            studentChoiceRepository.Save();
+            _studentChoiceRepository.Delete(studentChoice);
+            _studentChoiceRepository.Save();
             
             return true;
         }
 
         public ValidateStudentExists VerifyUserExists(int PCN)
         {
-            Student student = studentRepository.GetStudentByPCN(PCN);
+            Student student = _studentRepository.GetStudentByPCN(PCN);
 
             if (student == null)
             {

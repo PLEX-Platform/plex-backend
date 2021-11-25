@@ -35,7 +35,7 @@ namespace PlexBackend.Infrastructure.Helpers
                 {
                     Faker<Project> projectToFake = new Faker<Project>()
                         .RuleFor(s => s.DEXId, f => f.Random.Number(1, 30))
-                        .RuleFor(s => s.Title, f => f.Lorem.Sentence(1));
+                        .RuleFor(s => s.Title, f => f.Commerce.ProductName());
 
                     Project project = projectToFake.Generate();
                     project.MaximumNumberOfMembers = 3;
@@ -65,5 +65,21 @@ namespace PlexBackend.Infrastructure.Helpers
             return studentChoices;
         }
 
+        public static List<Playlist> SeedPlaylists(List<Project> projects)
+        {
+            List<Playlist> playlists = new List<Playlist>();
+            for (int i = 1; i <= 3; i++)
+            {
+                Playlist playlist = new Playlist
+                {
+                    Name = "playlist" + i,
+                    Projects = projects
+                };
+
+                playlists.Add(playlist);
+            }
+
+            return playlists;
+        }
     }
 }
