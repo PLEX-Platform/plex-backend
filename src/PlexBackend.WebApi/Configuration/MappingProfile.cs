@@ -21,6 +21,9 @@ namespace PlexBackend.WebApi.Configuration
 
             CreateMap<Playlist, RetrievePlaylistViewModel>();
             CreateMap<Project, ProjectViewModel>();
+            CreateMap<CreatePlaylistViewModel, Playlist>();
+            CreateMap<Playlist, CreatePlaylistViewModel>();
+            CreateMap<ProjectViewModel, Project>();
         }
     }
 }

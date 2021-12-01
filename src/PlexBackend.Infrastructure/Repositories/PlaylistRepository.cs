@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PlexBackend.Core.Entities;
 using PlexBackend.Core.Interfaces;
 using PlexBackend.Infrastructure.Repositories.Base;
@@ -19,8 +20,8 @@ namespace PlexBackend.Infrastructure.Repositories
         public async Task<IEnumerable<Playlist>> GetAllPlaylistsWithProjects()
         {
             return await _context.Playlists
-                    .Include(p => p.Projects)
-                    .ToListAsync();
+                .Include(p => p.Projects)
+                .ToListAsync();
         }
 
         public async Task<Playlist> GetPlaylistWithProjectsById(int id)
@@ -28,6 +29,12 @@ namespace PlexBackend.Infrastructure.Repositories
             return await _context.Playlists
                 .Include(p => p.Projects)
                 .FirstOrDefaultAsync(e => e.Id == id);
+        }
+
+        public async Task<Playlist> SavePlaylist(Playlist playlist)
+        {
+            var result = await _context.Playlists.AddAsync(playlist);
+            return result.Entity;
         }
     }
 }

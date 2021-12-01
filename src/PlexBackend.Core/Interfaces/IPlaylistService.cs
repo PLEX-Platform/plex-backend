@@ -1,4 +1,5 @@
-﻿using PlexBackend.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using PlexBackend.Core.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,5 +9,6 @@ namespace PlexBackend.Core.Interfaces
     {
         Task<IEnumerable<Playlist>> GetAllPlaylists();
         Task<Playlist> GetPlaylistWithProjectsById(int id);
+        Task<Playlist> SavePlaylist(Playlist playlist);
     }
 }
