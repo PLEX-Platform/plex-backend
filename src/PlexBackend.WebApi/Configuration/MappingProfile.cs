@@ -18,6 +18,9 @@ namespace PlexBackend.WebApi.Configuration
 
             CreateMap<ProjectPriority, StudentChoice>();
             CreateMap<StudentChoice, ProjectPriority>();
+
+            CreateMap<Playlist, RetrievePlaylistViewModel>();
+            CreateMap<Project, ProjectViewModel>();
         }
     }
 }

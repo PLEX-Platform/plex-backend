@@ -65,6 +65,8 @@ namespace PlexBackend.WebApi
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IMatchMakingService, MatchMakingService>();
+            services.AddScoped<IPlaylistService, PlaylistService>();
+            services.AddScoped<IPlaylistRepository, PlaylistRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
