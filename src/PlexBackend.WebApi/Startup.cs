@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +37,7 @@ namespace PlexBackend.WebApi
             if (Environment.IsDevelopment())
             {
                 services.AddDbContext<PlexContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LocalDb")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             }
             else
             {
@@ -106,34 +107,38 @@ namespace PlexBackend.WebApi
                                                   .GetRequiredService<IServiceScopeFactory>()
                                                   .CreateScope();
             using PlexContext context = serviceScope.ServiceProvider.GetService<PlexContext>();
+            if (context == null)
+                throw new NullReferenceException("The variable named context is null, when it should have a value. Please check if you configured the service of type PlexContext correctly.");
+
+            if (!context.Database.CanConnect())
+                throw new ApplicationException("The database is unavailable and cannot be connected to. Please check if the mssql docker container is running when in development environment.");
             context.Database.Migrate();
 
-            if (env.IsDevelopment())
+            if (!env.IsDevelopment()) return; // Do nothing else if not in development mode
+            
+            if (!context.Students.Any())
             {
-                if (!context.Students.Any())
-                {
-                    context.Students.AddRange(Seed.SeedStudents());
-                    context.SaveChanges();
-                }
+                context.Students.AddRange(Seed.SeedStudents());
+                context.SaveChanges();
+            }
 
-                if (!context.Projects.Any())
-                {
-                    context.Projects.AddRange(Seed.SeedProjects());
-                    context.SaveChanges();
-                }
+            if (!context.Projects.Any())
+            {
+                context.Projects.AddRange(Seed.SeedProjects());
+                context.SaveChanges();
+            }
 
-                if (!context.Playlists.Any())
-                {
-                    List<Project> projects = context.Projects.ToList();
-                    context.Playlists.AddRange(Seed.SeedPlaylists(projects));
-                    context.SaveChanges();
-                }
+            if (!context.Playlists.Any())
+            {
+                List<Project> projects = context.Projects.ToList();
+                context.Playlists.AddRange(Seed.SeedPlaylists(projects));
+                context.SaveChanges();
+            }
 
-                if (!context.StudentChoices.Any())
-                {
-                    context.StudentChoices.AddRange(Seed.SeedStudentChoices());
-                    context.SaveChanges();
-                }
+            if (!context.StudentChoices.Any())
+            {
+                context.StudentChoices.AddRange(Seed.SeedStudentChoices());
+                context.SaveChanges();
             }
         }
     }
