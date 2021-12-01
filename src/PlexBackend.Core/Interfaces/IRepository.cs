@@ -18,7 +18,7 @@ namespace PlexBackend.Core.Interfaces
         public void UpdateRange(List<T> entitites);
         void Update(T entity);
         void Delete(T entity);
-        void Save();
+        Task Save();
         void Dispose();
     }
 }

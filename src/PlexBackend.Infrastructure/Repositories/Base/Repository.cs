@@ -67,9 +67,9 @@ namespace PlexBackend.Infrastructure.Repositories.Base
             this.RepositoryContext.Remove(RepositoryContext.Set<T>().Find(id));
         }
 
-        public void Save()
+        public async Task Save()
         {
-            this.RepositoryContext.SaveChangesAsync();
+            await this.RepositoryContext.SaveChangesAsync();
         }
 
         public void Dispose()

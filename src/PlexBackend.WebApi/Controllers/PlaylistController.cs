@@ -6,6 +6,7 @@ using PlexBackend.WebApi.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,21 +18,23 @@ namespace PlexBackend.WebApi.Controllers
     {
         private readonly IPlaylistService _playlistService;
         private readonly IMapper _mapper;
+        private readonly IProjectRepository _projectRepository;
 
-        public PlaylistController(IPlaylistService playlistService, IMapper mapper)
+        public PlaylistController(IPlaylistService playlistService, IMapper mapper, IProjectRepository projectRepository)
         {
             _playlistService = playlistService;
             _mapper = mapper;
+            _projectRepository = projectRepository;
         }
 
         // GET: api/<PlaylistController>
         [HttpGet]
-        public ActionResult<IEnumerable<RetrievePlaylistViewModel>> Get()
+        public async Task<ActionResult<IEnumerable<RetrievePlaylistViewModel>>> Get()
         {
             try
             {
-                List<Playlist> playlists = _playlistService.GetAllPlaylists().Result.ToList();
-                List<RetrievePlaylistViewModel> result = _mapper.Map<List<Playlist>, List<RetrievePlaylistViewModel>>(playlists);
+                IEnumerable<Playlist> playlists = await _playlistService.GetAllPlaylists();
+                List<RetrievePlaylistViewModel> result = _mapper.Map<List<Playlist>, List<RetrievePlaylistViewModel>>(playlists.ToList());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -43,11 +46,11 @@ namespace PlexBackend.WebApi.Controllers
 
         // GET api/<PlaylistController>/5
         [HttpGet("{id}")]
-        public ActionResult<RetrievePlaylistViewModel> Get(int id)
+        public async Task<ActionResult<RetrievePlaylistViewModel>> Get(int id)
         {
             try
             {
-                Playlist playlist = _playlistService.GetPlaylistWithProjectsById(id).Result;
+                Playlist playlist = await _playlistService.GetPlaylistWithProjectsById(id);
                 if (playlist != null)
                 {
                     RetrievePlaylistViewModel result = _mapper.Map<Playlist, RetrievePlaylistViewModel>(playlist);
@@ -64,14 +67,30 @@ namespace PlexBackend.WebApi.Controllers
 
         // POST api/<PlaylistController>
         [HttpPost]
-        public ActionResult<CreatePlaylistViewModel> Post([FromBody] CreatePlaylistViewModel vm)
+        public async Task<ActionResult<RetrievePlaylistViewModel>> Post([FromBody] CreatePlaylistViewModel vm)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && TryValidateModel(vm.Projects))
             {
-                return Created("Get", vm);
+                try
+                {
+                    Playlist playlist =  _mapper.Map<CreatePlaylistViewModel, Playlist>(vm);
+
+                    //Adds static list of projects to the entity for now
+                    playlist.Projects = _projectRepository.FindAll().ToList();
+
+                    //Save playlist to the db
+                    playlist = await _playlistService.SavePlaylist(playlist);
+
+                    RetrievePlaylistViewModel resultVm = _mapper.Map<Playlist, RetrievePlaylistViewModel>(playlist);
+                    return CreatedAtAction(nameof(Get), new { id = playlist.Id}, resultVm);
+                }
+                catch(Exception ex)
+                {
+                    return StatusCode(500, ex.InnerException.Message);
+                }
             }
 
-            return BadRequest();
+            return BadRequest("The input is not valid");
         }
 
         // PUT api/<PlaylistController>/5
