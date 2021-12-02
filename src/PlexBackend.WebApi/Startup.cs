@@ -37,7 +37,7 @@ namespace PlexBackend.WebApi
             if (Environment.IsDevelopment())
             {
                 services.AddDbContext<PlexContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), providerOptions => providerOptions.EnableRetryOnFailure()));
             }
             else
             {

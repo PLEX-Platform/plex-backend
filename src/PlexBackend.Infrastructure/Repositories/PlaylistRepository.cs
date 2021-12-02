@@ -30,11 +30,5 @@ namespace PlexBackend.Infrastructure.Repositories
                 .Include(p => p.Projects)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
-
-        public async Task<Playlist> SavePlaylist(Playlist playlist)
-        {
-            var result = await _context.Playlists.AddAsync(playlist);
-            return result.Entity;
-        }
     }
 }

@@ -10,7 +10,10 @@ namespace PlexBackend.Core.Interfaces
 {
     public interface IProjectService
     {
-        public ValidateProjectExists CheckIfProjectExists(int DexId);
-        public void AddNewProject(Project project);
+        ValidateProjectExists CheckIfProjectExists(int DexId);
+        void AddNewProject(Project project);
+        List<Project> GetAllProjects();
+
+        Task<List<Project>> SaveNewProjects(List<Project> projects);
     }
 }

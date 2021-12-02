@@ -13,6 +13,6 @@ namespace PlexBackend.WebApi.ViewModels
         public string Name { get; set; }
         [Required]
         [EnsureOneElement(ErrorMessage = "Playlist must contain atleast one project")]
-        public List<ProjectViewModel> Projects { get; set; }
+        public List<ProjectSubmitViewModel> Projects { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace PlexBackend.Core.Interfaces
         IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression);
         T GetById(int id);
         T GetById(Guid id);
-        T Create(T entity);
+        Task<T> Create(T entity);
         void AddRange(List<T> entities);
         public void UpdateRange(List<T> entitites);
         void Update(T entity);

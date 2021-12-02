@@ -41,5 +41,46 @@ namespace PlexBackend.Core.Services
         {
             _projectRepository.Create(project);
         }
+
+        public List<Project> GetAllProjects()
+        {
+            return _projectRepository.FindAll().ToList();
+        }
+
+        public async Task<List<Project>> SaveNewProjects(List<Project> projects)
+        {
+            List<int> DexIds = new List<int>();
+
+            foreach (Project project in projects)
+            {
+                DexIds.Add(project.DEXId);
+            }
+            
+            List<Project> existingProjects = _projectRepository.FindByCondition(x => DexIds.Contains(x.DEXId)).ToList();
+            List<Project> newProjects = new List<Project>();
+            List<Project> result = new List<Project>();
+
+            foreach (Project proj in projects)
+            {
+                Project realProj = existingProjects.FirstOrDefault(e => e.DEXId == proj.DEXId);
+                if (realProj == null)
+                {
+                    newProjects.Add(proj);
+                }
+                else
+                {
+                    result.Add(realProj);
+                }
+            }
+
+            foreach (Project project1 in newProjects)
+            {
+                await _projectRepository.Create(project1);
+                await _projectRepository.Save();
+                result.Add(project1);
+            }
+
+            return result;
+        }
     }
 }

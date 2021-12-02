@@ -9,6 +9,5 @@ namespace PlexBackend.Core.Interfaces
     {
         Task<IEnumerable<Playlist>> GetAllPlaylistsWithProjects();
         Task<Playlist> GetPlaylistWithProjectsById(int id);
-        Task<Playlist> SavePlaylist(Playlist playlist);
     }
 }
