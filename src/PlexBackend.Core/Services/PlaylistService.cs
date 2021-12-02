@@ -11,7 +11,7 @@ namespace PlexBackend.Core.Services
     {
         private readonly IPlaylistRepository _playlistRepository;
 
-        public PlaylistService(IPlaylistRepository playlistRepository)
+        public PlaylistService(IPlaylistRepository playlistRepository )
         {
             _playlistRepository = playlistRepository;
         }
@@ -28,7 +28,7 @@ namespace PlexBackend.Core.Services
 
         public async Task<Playlist> SavePlaylist(Playlist playlist)
         {
-            await _playlistRepository.SavePlaylist(playlist);
+            await _playlistRepository.Create(playlist);
             await _playlistRepository.Save();
             return playlist;
         }

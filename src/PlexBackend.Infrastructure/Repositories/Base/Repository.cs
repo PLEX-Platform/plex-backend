@@ -36,10 +36,11 @@ namespace PlexBackend.Infrastructure.Repositories.Base
             return this.RepositoryContext.Set<T>().Find(id);
         }
 
-        public T Create(T entity)
+        public async Task<T> Create(T entity)
         {
-            this.RepositoryContext.Set<T>().Add(entity);
-            return entity;
+            var result = await this.RepositoryContext.Set<T>().AddAsync(entity);
+            return result.Entity;
+
         }
 
         public void AddRange(List<T> entities)

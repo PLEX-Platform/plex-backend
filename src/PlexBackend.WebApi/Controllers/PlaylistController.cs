@@ -18,13 +18,13 @@ namespace PlexBackend.WebApi.Controllers
     {
         private readonly IPlaylistService _playlistService;
         private readonly IMapper _mapper;
-        private readonly IProjectRepository _projectRepository;
+        private readonly IProjectService _projectService;
 
-        public PlaylistController(IPlaylistService playlistService, IMapper mapper, IProjectRepository projectRepository)
+        public PlaylistController(IPlaylistService playlistService, IMapper mapper, IProjectService projectService)
         {
             _playlistService = playlistService;
             _mapper = mapper;
-            _projectRepository = projectRepository;
+            _projectService = projectService;
         }
 
         // GET: api/<PlaylistController>
@@ -75,8 +75,7 @@ namespace PlexBackend.WebApi.Controllers
                 {
                     Playlist playlist =  _mapper.Map<CreatePlaylistViewModel, Playlist>(vm);
 
-                    //Adds static list of projects to the entity for now
-                    playlist.Projects = _projectRepository.FindAll().ToList();
+                    playlist.Projects = await _projectService.SaveNewProjects(playlist.Projects);
 
                     //Save playlist to the db
                     playlist = await _playlistService.SavePlaylist(playlist);
