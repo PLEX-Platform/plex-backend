@@ -109,7 +109,6 @@ namespace PlexBackend.WebApi
             using PlexContext context = serviceScope.ServiceProvider.GetService<PlexContext>();
             if (context == null)
                 throw new NullReferenceException("The variable named context is null, when it should have a value. Please check if you configured the service of type PlexContext correctly.");
-            context.Database.EnsureCreated();
             context.Database.Migrate();
 
             if (!env.IsDevelopment()) return; // Do nothing else if not in development mode
