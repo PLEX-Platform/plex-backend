@@ -7,6 +7,8 @@ using PlexBackend.WebApi.ViewModels;
 using PlexBackend.Core.Interfaces;
 using PlexBackend.Core.Entities;
 using PlexBackend.Core.Helpers;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace PlexBackend.WebApi.Controllers
 {
@@ -28,11 +30,11 @@ namespace PlexBackend.WebApi.Controllers
         /// </summary>
         // GET: api/StudentChoices
         [HttpGet]
-        public ActionResult<IEnumerable<StudentChoiceViewModel>> GetStudentChoices()
+        public async Task<ActionResult<IEnumerable<StudentChoiceViewModel>>> GetStudentChoices()
         {
-            List<StudentChoice> studentChoices = _studentChoiceService.FindAll();
+            IEnumerable<StudentChoice> studentChoices = await _studentChoiceService.FindAll();
 
-            return Ok(mapper.Map<List<StudentChoice>, List<StudentChoiceViewModel>>(studentChoices));
+            return Ok(mapper.Map<List<StudentChoice>, List<StudentChoiceViewModel>>(studentChoices.ToList()));
         }
 
         /// <summary>

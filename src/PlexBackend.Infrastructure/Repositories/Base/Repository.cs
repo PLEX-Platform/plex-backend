@@ -1,4 +1,5 @@
-﻿using PlexBackend.Core.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using PlexBackend.Core.Interfaces;
 using PlexBackend.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,9 @@ namespace PlexBackend.Infrastructure.Repositories.Base
         {
             this.RepositoryContext = plexContext;
         }
-        public IEnumerable<T> FindAll()
+        public async Task<IEnumerable<T>> FindAll()
         {
-            return this.RepositoryContext.Set<T>().ToList();
+            return await this.RepositoryContext.Set<T>().ToListAsync();
         }
 
         public IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression)

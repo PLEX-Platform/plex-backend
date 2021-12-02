@@ -9,7 +9,7 @@ namespace PlexBackend.Core.Interfaces
 {
     public interface IRepository<T>
     {
-        IEnumerable<T> FindAll();
+        Task<IEnumerable<T>> FindAll();
         IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression);
         T GetById(int id);
         T GetById(Guid id);

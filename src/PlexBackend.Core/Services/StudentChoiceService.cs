@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace PlexBackend.Core.Services
 {
@@ -34,9 +35,9 @@ namespace PlexBackend.Core.Services
             _studentChoiceRepository.Save();
         }
 
-        public List<StudentChoice> FindAll()
+        public async Task<IEnumerable<StudentChoice>> FindAll()
         {
-            return _studentChoiceRepository.FindAll().ToList();
+            return await _studentChoiceRepository.FindAll();
         }
 
         public StudentChoice GetById(int Id)

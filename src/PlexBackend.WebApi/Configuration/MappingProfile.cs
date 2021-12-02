@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using PlexBackend.Core.ContextModels;
-using PlexBackend.Core.DTO;
+﻿using AutoMapper;
 using PlexBackend.Core.Entities;
 using PlexBackend.WebApi.ViewModels;
 
@@ -27,7 +21,6 @@ namespace PlexBackend.WebApi.Configuration
             CreateMap<Project, ProjectSubmitViewModel>();
             CreateMap<Project, ExistingProjectViewModel>();
             CreateMap<ExistingProjectViewModel, Project>();
-            CreateMap<ProjectSubmitViewModel, ProjectDTO>();
         }
     }
 }
