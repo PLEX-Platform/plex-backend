@@ -109,9 +109,7 @@ namespace PlexBackend.WebApi
             using PlexContext context = serviceScope.ServiceProvider.GetService<PlexContext>();
             if (context == null)
                 throw new NullReferenceException("The variable named context is null, when it should have a value. Please check if you configured the service of type PlexContext correctly.");
-
-            if (!context.Database.CanConnect())
-                throw new ApplicationException("The database is unavailable and cannot be connected to. Please check if the mssql docker container is running when in development environment.");
+            context.Database.EnsureCreated();
             context.Database.Migrate();
 
             if (!env.IsDevelopment()) return; // Do nothing else if not in development mode
