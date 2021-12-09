@@ -44,7 +44,6 @@ namespace PlexBackend.Infrastructure.Helpers
 
                     Project project = projectToFake.Generate();
                     project.DEXId = i;
-                    project.MaximumNumberOfMembers = 3;
 
                     projects.Add(project);
                 }
@@ -84,7 +83,8 @@ namespace PlexBackend.Infrastructure.Helpers
             for (int i = 1; i <= 3; i++)
             {
                 Faker<Playlist> playlistToFake = new Faker<Playlist>()
-                    .RuleFor(s => s.Name, f => f.Commerce.ProductName());
+                    .RuleFor(s => s.Name, f => f.Commerce.ProductName())
+                    .RuleFor(s => s.MaximumNumberOfStudentsPerProject, f => f.Random.Number(3, 5));
 
                 Playlist playlist = playlistToFake.Generate();
                 playlist.Projects = projects;

@@ -38,20 +38,20 @@ namespace PlexBackend.Core.Services
 
             foreach (Project proj in projects)
             {
-                Project realProj = existingProjects.FirstOrDefault(e => e.DEXId == proj.DEXId);
-                if (realProj == null)
+                Project project = existingProjects.FirstOrDefault(e => e.DEXId == proj.DEXId);
+                if (project == null)
                 {
                     newProjects.Add(proj);
                 }
                 else
                 {
-                    result.Add(realProj);
+                    result.Add(project);
                 }
             }
 
-            foreach (Project project1 in newProjects)
+            foreach (Project project in newProjects)
             {           
-                result.Add(await this.AddNewProject(project1));
+                result.Add(await this.AddNewProject(project));
             }
 
             return result;

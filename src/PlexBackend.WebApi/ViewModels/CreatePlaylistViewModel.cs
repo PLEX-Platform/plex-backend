@@ -14,5 +14,8 @@ namespace PlexBackend.WebApi.ViewModels
         [Required]
         [EnsureOneElement(ErrorMessage = "Playlist must contain atleast one project")]
         public List<ProjectSubmitViewModel> Projects { get; set; }
+        [Required]
+        [RequiredGreaterThanZero(ErrorMessage = "Maximum amount of members must be greater than zero")]
+        public int MaximumNumberOfStudentsPerProject { get; set; }
     }
 }

@@ -12,6 +12,5 @@ namespace PlexBackend.WebApi.ViewModels
         public int Id { get; set; }
         public int DEXId { get; set; }
         public string Title { get; set; }
-        public int MaximumNumberOfMembers { get; set; }
     }
 }

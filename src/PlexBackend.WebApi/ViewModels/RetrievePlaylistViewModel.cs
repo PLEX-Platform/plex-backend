@@ -11,5 +11,6 @@ namespace PlexBackend.WebApi.ViewModels
         public int Id { get; set; }
         public string Name { get; set; }
         public List<ExistingProjectViewModel> Projects { get; set; }
+        public int MaximumNumberOfStudentsPerProject { get; set; }
     }
 }

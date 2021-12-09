@@ -77,11 +77,10 @@ namespace PlexBackend.WebApi.Controllers
 
                     playlist.Projects = await _projectService.SaveNewProjects(playlist.Projects);
 
-                    //Save playlist to the db
                     playlist = await _playlistService.SavePlaylist(playlist);
 
-                    RetrievePlaylistViewModel resultVm = _mapper.Map<Playlist, RetrievePlaylistViewModel>(playlist);
-                    return CreatedAtAction(nameof(Get), new { id = playlist.Id}, resultVm);
+                    RetrievePlaylistViewModel result = _mapper.Map<Playlist, RetrievePlaylistViewModel>(playlist);
+                    return CreatedAtAction(nameof(Get), new { id = playlist.Id}, result);
                 }
                 catch(Exception ex)
                 {
