@@ -13,6 +13,7 @@ namespace PlexBackend.WebApi.ViewModels
         public string Name { get; set; }
         [Required]
         [EnsureOneElement(ErrorMessage = "Playlist must contain atleast one project")]
+        [EnsureUniqueProjectSubmitViewModel(ErrorMessage = "Playlist can't contain the same project more than once")]
         public List<ProjectSubmitViewModel> Projects { get; set; }
         [Required]
         [RequiredGreaterThanZero(ErrorMessage = "Maximum amount of members must be greater than zero")]
