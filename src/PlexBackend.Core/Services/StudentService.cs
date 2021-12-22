@@ -14,5 +14,14 @@ namespace PlexBackend.Core.Services
         {
             this.studentRepository = studentRepository;
         }
+
+        public bool VerifyUserExists(int PCN)
+        {
+            if (studentRepository.FindByCondition(student => student.StudentNumber == PCN) == null)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

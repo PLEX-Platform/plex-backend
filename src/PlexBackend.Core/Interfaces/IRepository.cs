@@ -9,16 +9,16 @@ namespace PlexBackend.Core.Interfaces
 {
     public interface IRepository<T>
     {
-        IEnumerable<T> FindAll();
+        Task<IEnumerable<T>> FindAll();
         IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression);
         T GetById(int id);
         T GetById(Guid id);
-        T Create(T entity);
+        Task<T> Create(T entity);
         void AddRange(List<T> entities);
         public void UpdateRange(List<T> entitites);
         void Update(T entity);
         void Delete(T entity);
-        void Save();
+        Task Save();
         void Dispose();
     }
 }

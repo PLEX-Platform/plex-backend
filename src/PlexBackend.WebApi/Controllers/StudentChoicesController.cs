@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PlexBackend.WebApi.ViewModels;
-using PlexBackend.Core.ContextModels;
 using PlexBackend.Core.Interfaces;
-using PlexBackend.Core.Services;
-using PlexBackend.Core.MatchMaking;
 using PlexBackend.Core.Entities;
+using PlexBackend.Core.Helpers;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace PlexBackend.WebApi.Controllers
 {
@@ -18,12 +16,12 @@ namespace PlexBackend.WebApi.Controllers
     [ApiController]
     public class StudentChoicesController : ControllerBase
     {
-        private readonly IStudentChoiceService studentChoiceService;
+        private readonly IStudentChoiceService _studentChoiceService;
         private readonly IMapper mapper;
 
         public StudentChoicesController(IMapper mapper, IStudentChoiceService studentChoiceService)
         {
-            this.studentChoiceService = studentChoiceService;
+            _studentChoiceService = studentChoiceService;
             this.mapper = mapper;
         }
 
@@ -32,11 +30,11 @@ namespace PlexBackend.WebApi.Controllers
         /// </summary>
         // GET: api/StudentChoices
         [HttpGet]
-        public ActionResult<IEnumerable<StudentChoiceViewModel>> GetStudentChoices()
+        public async Task<ActionResult<IEnumerable<StudentChoiceViewModel>>> GetStudentChoices()
         {
-            List<StudentChoice> studentChoices = studentChoiceService.FindAll();
+            IEnumerable<StudentChoice> studentChoices = await _studentChoiceService.FindAll();
 
-            return Ok(mapper.Map<List<StudentChoice>, List<StudentChoiceViewModel>>(studentChoices));
+            return Ok(mapper.Map<List<StudentChoice>, List<StudentChoiceViewModel>>(studentChoices.ToList()));
         }
 
         /// <summary>
@@ -47,7 +45,7 @@ namespace PlexBackend.WebApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<StudentChoiceViewModel> GetStudentChoice(int id)
         {
-            StudentChoice studentChoice = studentChoiceService.GetById(id);
+            StudentChoice studentChoice = _studentChoiceService.GetById(id);
 
             if (studentChoice == null)
             {
@@ -65,7 +63,7 @@ namespace PlexBackend.WebApi.Controllers
         [HttpGet("/GetChoicesByPCN/{PCN}")]
         public ActionResult<StudentChoiceByPCNViewModel> GetChoicesByPCN(int PCN)
         {
-            List<StudentChoice> studentChoices = studentChoiceService.FindByCondition(e => e.Student.StudentNumber == PCN);
+            List<StudentChoice> studentChoices = _studentChoiceService.FindByCondition(e => e.Student.StudentNumber == PCN);
 
             if (studentChoices.Count == 0)
             {
@@ -123,19 +121,31 @@ namespace PlexBackend.WebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                int studentId = 1;
-
-                List<StudentChoice> databaseInput = mapper.Map<List<ProjectPriority>, List<StudentChoice>>(studentChoiceVM.ProjectPriorities);
-
-                foreach (StudentChoice sc in databaseInput)
-                {
-                    sc.StudentId = studentId ;
-                }
-
                 try
                 {
-                    studentChoiceService.AddRange(databaseInput);
-                    return Ok();
+                    ValidateStudentExists validateStudentExists = _studentChoiceService.VerifyUserExists(studentChoiceVM.StudentPCN);
+
+                    if (!validateStudentExists.Exists)
+                    {
+                        return BadRequest("This student doesn't exist in our system");
+                    }
+
+                    List<StudentChoice> databaseInput = mapper.Map<List<ProjectPriority>, List<StudentChoice>>(studentChoiceVM.ProjectPriorities);
+
+                    foreach (StudentChoice sc in databaseInput)
+                    {
+                        sc.StudentId =  validateStudentExists.Student.Id;
+                    }
+
+                    try
+                    {
+                        _studentChoiceService.AddRange(databaseInput);
+                        return Ok();
+                    }
+                    catch (Exception ex)
+                    {
+                        return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -156,7 +166,7 @@ namespace PlexBackend.WebApi.Controllers
         {
             try
             {
-                if (!studentChoiceService.DeleteStudentChoice(id))
+                if (!_studentChoiceService.DeleteStudentChoice(id))
                 {
                     return NotFound();
                 }         

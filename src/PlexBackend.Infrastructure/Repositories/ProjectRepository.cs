@@ -17,5 +17,10 @@ namespace PlexBackend.Infrastructure.Repositories
         {
             this.plexContext = plexContext;
         }
+
+        public void AddMultipleProjects(List<Project> projects)
+        {
+            this.plexContext.AddRange(projects);
+        }
     }
 }

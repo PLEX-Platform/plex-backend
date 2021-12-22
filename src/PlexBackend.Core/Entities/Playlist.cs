@@ -8,8 +8,10 @@ namespace PlexBackend.Core.Entities
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
-        public DateTime Deadline { get; set; }
+        [Required]
+        public int MaximumNumberOfStudentsPerProject { get; set; }
         public List<Project> Projects { get; set; }
     }
 }

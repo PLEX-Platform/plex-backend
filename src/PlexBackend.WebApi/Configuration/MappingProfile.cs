@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using PlexBackend.Core.ContextModels;
+﻿using AutoMapper;
 using PlexBackend.Core.Entities;
 using PlexBackend.WebApi.ViewModels;
 
@@ -18,6 +13,14 @@ namespace PlexBackend.WebApi.Configuration
 
             CreateMap<ProjectPriority, StudentChoice>();
             CreateMap<StudentChoice, ProjectPriority>();
+
+            CreateMap<Playlist, RetrievePlaylistViewModel>();
+            CreateMap<CreatePlaylistViewModel, Playlist>();
+            CreateMap<Playlist, CreatePlaylistViewModel>();
+            CreateMap<ProjectSubmitViewModel, Project>();
+            CreateMap<Project, ProjectSubmitViewModel>();
+            CreateMap<Project, ExistingProjectViewModel>();
+            CreateMap<ExistingProjectViewModel, Project>();
         }
     }
 }

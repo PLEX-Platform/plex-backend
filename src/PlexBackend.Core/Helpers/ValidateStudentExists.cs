@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlexBackend.Core.Interfaces
+namespace PlexBackend.Core.Helpers
 {
-    public interface IStudentRepository : IRepository<Student>
+    public class ValidateStudentExists
     {
-        public Student GetStudentByPCN(int PCN);
+            public bool Exists { get; set; }
+            public Student Student { get; set; }
     }
 }

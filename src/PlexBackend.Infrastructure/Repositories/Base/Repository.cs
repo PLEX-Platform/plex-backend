@@ -1,4 +1,5 @@
-﻿using PlexBackend.Core.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using PlexBackend.Core.Interfaces;
 using PlexBackend.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,9 @@ namespace PlexBackend.Infrastructure.Repositories.Base
         {
             this.RepositoryContext = plexContext;
         }
-        public IEnumerable<T> FindAll()
+        public async Task<IEnumerable<T>> FindAll()
         {
-            return this.RepositoryContext.Set<T>().ToList();
+            return await this.RepositoryContext.Set<T>().ToListAsync();
         }
 
         public IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression)
@@ -36,10 +37,11 @@ namespace PlexBackend.Infrastructure.Repositories.Base
             return this.RepositoryContext.Set<T>().Find(id);
         }
 
-        public T Create(T entity)
+        public async Task<T> Create(T entity)
         {
-            this.RepositoryContext.Set<T>().Add(entity);
-            return entity;
+            var result = await this.RepositoryContext.Set<T>().AddAsync(entity);
+            return result.Entity;
+
         }
 
         public void AddRange(List<T> entities)
@@ -67,9 +69,9 @@ namespace PlexBackend.Infrastructure.Repositories.Base
             this.RepositoryContext.Remove(RepositoryContext.Set<T>().Find(id));
         }
 
-        public void Save()
+        public async Task Save()
         {
-            this.RepositoryContext.SaveChangesAsync();
+            await this.RepositoryContext.SaveChangesAsync();
         }
 
         public void Dispose()
