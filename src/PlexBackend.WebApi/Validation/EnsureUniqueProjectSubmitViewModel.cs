@@ -27,7 +27,7 @@ namespace PlexBackend.WebApi.Validation
             {
                 try
                 {
-                    input.Single(x => x.PriorityRank == project.PriorityRank);
+                    input.Single(x => x.DEXId == project.DEXId);
                 }
                 catch
                 {
