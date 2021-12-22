@@ -12,7 +12,7 @@ During their studies FHICT students will work on multiple group projects. The se
 The purpose of plex is to simplify this process for both the student and teacher by centralizing and automating this process. Plex should help reduce the workload of the semester owner aswell as provide a more user friendly experience for the students.
 
 ### Dex intergration
-Plex will be using the project information from the <a href="https://dex.software/home">DEX-platform</a> another fontys designed platform. For more information about DEX checkout <a href="https://github.com/DigitalExcellence/dex-backend/wiki/General-Description">DEX git</a>.
+Plex will be using the project information from the <a href="https://dex.software/home">DEX-platform</a> another fontys designed platform. For more information about DEX checkout their <a href="https://github.com/DigitalExcellence/dex-backend/wiki/General-Description">wiki</a>.
 
 ### Centralize
 The information on the projects the students could choose from tended to be scattered over multiple seperate documents or had to be combined into one document by the semester owner. Plex will centralize all the relevant info in one easy accesible location.
