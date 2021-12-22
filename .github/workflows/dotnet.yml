@@ -20,8 +20,8 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore src\PlexBackend.WebApi\PlexBackend.WebApi.csproj
+      run: dotnet restore ./src/PlexBackend.WebApi/PlexBackend.WebApi.csproj
     - name: Build
-      run: dotnet build src\PlexBackend.WebApi\PlexBackend.WebApi.csproj --no-restore
+      run: dotnet build ./src/PlexBackend.WebApi/PlexBackend.WebApi.csproj --no-restore
     - name: Test
-      run: dotnet test src\PlexBackend.WebApi\PlexBackend.WebApi.csproj --no-build --verbosity normal
+      run: dotnet test ./src/PlexBackend.WebApi/PlexBackend.WebApi.csproj --no-build --verbosity normal
