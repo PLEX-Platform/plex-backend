@@ -1,75 +1,21 @@
 # Plex-Backend
 
-# Table of Contents
-- Installation
-    - ASP.NET Core 5.0
-        - Windows
-        - macOS
-        - Linux (Ubuntu)
-- Usage
-    - API Calls 
-        - Algorithm Sorting
-        - Dex Integration
-    - Data persistency / Storing
-- Contributing
-- Credits
-- License
+This repository contains the .NET Core backend for the Plex platform.
 
-# Installation #
+## Quick Links
+* <a href="https://github.com/PLEX-Platform/plex-backend/wiki">Check out the Wiki</a>
+* <a href="https://github.com/PLEX-Platform/plex-backend/wiki/Getting-Started">Get started with development</a>
 
-## ASP.NET Core ##
-We're using the .NET CORE 5.0 SDK. So we'll be installing that SDK. There currently are no plans to migrate to the 6.0 SDK but it could be something we might consider.  
+## What is the purpose of plex?
+During their studies FHICT students will work on multiple group projects. The semester owner needs to select a number of projects and share them with his students. The students will then be able to see the details of the projects the semester owner selected for them. The students will then be able to submit their preference of the available projects. The semester owner can then use the students preferences to divide the students into groups. 
 
+The purpose of plex is to simplify this process for both the student and teacher by centralizing and automating this process. Plex should help reduce the workload of the semester owner aswell as provide a more user friendly experience for the students.
 
-<details>
-    <summary>
-        Windows
-    </summary>
-    <p>
-        1.Go to: <a href="https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-5.0.403-windows-x64-installer"> https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-5.0.403-windows-x64-installer </a>
-        </br>
-        2.Walk through the installer and finish the installation.
-        </br>
-        3.Verify the installation by opening the <i>"Command Prompt"</i>
-        </br>
-        4.Type in the command: `dotnet --version`  
-    </p>
-</details>
- 
- <details>
-    <summary>
-        macOS
-    </summary>
-    <p>
-        1.Go to:<a href="https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-5.0.403-macos-x64-installer"> https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-5.0.403-macos-x64-installer </a>
-        </br>
-        2.Walk through the installer finish the installation.
-        </br>
-        3.Verify the installation by opening the <i>"Terminal"</i>
-        </br>
-        4.Type i the command: `sudo dotnet --version`.
-    </p>
-</details>
+### Dex intergration
+Plex will be using the project information from the <a href="https://dex.software/home">DEX-platform</a> another fontys designed platform. For more information about DEX checkout their <a href="https://github.com/DigitalExcellence/dex-backend/wiki/General-Description">wiki</a>.
 
-<details>
-    <summary>
-        Linux(Ubuntu)
-    </summary>
-    <p>
-        1.Open the <i>"Terminal"</i>
-        </br>
-        2. //If you're running 16.04 Ubuntu LTS or up, you don't need to install "snap" since it is already pre-packaged
-        </br>
-        3.Run this command: `sudo snap install dotnet-sdk --classic --channel=5.0`
-        </br>
-        4.After the installation has finished, run this command: `sudo snap alias dotnet-sdk.dotnet dotnet`  so you can invoke the dotnet command from terminal.
-        </br>
-        5.Run: `sudo nano ~/.bashrc` and you will be able to edit the PATH variables. 
-        </br>
-        6.Add this to the end of the file: `export DOTNET_ROOT=/snap/dotnet-sdk/current`
-        </br> 
-        7.Press <kbd> CTRL + X </kbd> to save the changes you made and exit the nano text editor
-        </br>
-        8.Run the command: `sudo dotnet --info` to verify if the installation completed. If everything went well, it should output the location and version of the dotnet installation
-    </p>
-</details>
+### Centralize
+The information on the projects the students could choose from tended to be scattered over multiple seperate documents or had to be combined into one document by the semester owner. Plex will centralize all the relevant info in one easy accesible location.
+
+### Automatic group creation
+Students will be able to use Plex to submit their project preferences. The Plex-platform will be able to provide the semester owner with a group composition suggestion based on the provided preferences. This will be done via a sorting algorithm. The teacher can then edit these groups to their own discretion before saving them to the school's system.
