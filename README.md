@@ -1,5 +1,10 @@
 # Plex-Backend
 
+This repository contains the .NET Core backend for the Plex platform.
+
+## Quick Links
+* <a href="https://github.com/PLEX-Platform/plex-backend/wiki">Check out the Wiki</a>
+
 # Table of Contents
 - Installation
     - ASP.NET Core 5.0
