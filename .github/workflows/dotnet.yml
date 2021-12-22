@@ -1,10 +1,12 @@
-name: .NET
+name: dotnet testing
 
 on:
   push:
-    branches: [ Development ]
+    branches:
+      - "**" #matches every branch
   pull_request:
-    branches: [ Development ]
+    branches:
+      - "**"
 
 jobs:
   build:
@@ -18,8 +20,8 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./src/PlexBackend.WebApi/PlexBackend.WebApi.csproj
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build ./src/PlexBackend.WebApi/PlexBackend.WebApi.csproj --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test ./tests/PlexBackend.Core.UnitTests/PlexBackend.Core.UnitTests.csproj
